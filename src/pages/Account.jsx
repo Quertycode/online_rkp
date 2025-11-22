@@ -6,6 +6,8 @@ import StatsCard from '../modules/account/components/StatsCard'
 /**
  * Страница аккаунта - композиция модульных компонентов
  * Рефакторинг: Разбита на модульные компоненты
+ * 
+ * Примечание: Настройки музыки перенесены в раздел Геймификации
  */
 export default function Account() {
   const user = getCurrentUser()

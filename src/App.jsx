@@ -1,4 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { ThemeProvider } from './contexts/ThemeContext'
+import { PomodoroProvider } from './contexts/PomodoroContext'
+import { ToastProvider } from './components/ToastContainer'
 import Header from './components/Header'
 import BackButton from './components/BackButton'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -7,18 +10,32 @@ import Home from './pages/Home'
 import Courses from './pages/Courses'
 import CourseLessons from './pages/CourseLessons'
 import LessonDetails from './pages/LessonDetails'
+import Trainer from './pages/Trainer'
 import Tasks from './pages/Tasks'
+import Homework from './pages/Homework'
 import Account from './pages/Account'
 import Login from './pages/Login'
 import AdminPanel from './pages/AdminPanel'
+import TeacherPanel from './pages/TeacherPanel'
 import KnowledgeBase from './pages/KnowledgeBase'
+import Gamification from './pages/Gamification'
+import PomodoroTimer from './pages/PomodoroTimer'
 import NotFound from './pages/NotFound'
 
 export default function App() {
   const basename = import.meta.env.BASE_URL || '/'
 
   return (
-    <BrowserRouter basename={basename}>
+    <ThemeProvider>
+      <PomodoroProvider>
+      <ToastProvider>
+      <BrowserRouter 
+        basename={basename}
+        future={{
+          v7_startTransition: true,
+          v7_relativeSplatPath: true
+        }}
+      >
       <div className='min-h-screen bg-gradient-to-b from-cyan-50 to-white text-gray-800 flex flex-col'>
         <Header />
         <BackButton />
@@ -36,6 +53,14 @@ export default function App() {
               />
               <Route path='/login' element={<div className='p-4 md:p-6'><Login /></div>} />
               <Route 
+                path='/trainer' 
+                element={
+                  <ProtectedRoute>
+                    <Trainer />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
                 path='/tasks' 
                 element={
                   <ProtectedRoute>
@@ -44,10 +69,34 @@ export default function App() {
                 } 
               />
               <Route 
+                path='/homework' 
+                element={
+                  <ProtectedRoute>
+                    <div className='p-4 md:p-6'><Homework /></div>
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
                 path='/account' 
                 element={
                   <ProtectedRoute>
                     <div className='p-4 md:p-6'><Account /></div>
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path='/gamification' 
+                element={
+                  <ProtectedRoute>
+                    <div className='p-4 md:p-6'><Gamification /></div>
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path='/pomodoro' 
+                element={
+                  <ProtectedRoute>
+                    <div className='p-4 md:p-6'><PomodoroTimer /></div>
                   </ProtectedRoute>
                 } 
               />
@@ -70,7 +119,7 @@ export default function App() {
               <Route 
                 path='/courses/:subject' 
                 element={
-                  <ProtectedRoute roles={['student', 'admin']}>
+                  <ProtectedRoute roles={['student', 'teacher', 'admin']}>
                     <div className='p-4 md:p-6'><CourseLessons /></div>
                   </ProtectedRoute>
                 } 
@@ -78,8 +127,16 @@ export default function App() {
               <Route 
                 path='/courses/:subject/:lessonId' 
                 element={
-                  <ProtectedRoute roles={['student', 'admin']}>
+                  <ProtectedRoute roles={['student', 'teacher', 'admin']}>
                     <div className='p-4 md:p-6'><LessonDetails /></div>
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path='/teacher-panel' 
+                element={
+                  <ProtectedRoute roles={['teacher']}>
+                    <div className='p-4 md:p-6'><TeacherPanel /></div>
                   </ProtectedRoute>
                 } 
               />
@@ -104,5 +161,8 @@ export default function App() {
         </footer>
       </div>
     </BrowserRouter>
+    </ToastProvider>
+    </PomodoroProvider>
+    </ThemeProvider>
   )
 }

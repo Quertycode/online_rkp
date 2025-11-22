@@ -1,6 +1,7 @@
 import { useParams, Navigate } from 'react-router-dom'
 import Card from '../components/Card'
 import coursesData from '../data/courses.json'
+import { getSubjectName } from '../constants/subjects'
 
 export default function KnowledgeBase() {
   const { subject } = useParams()
@@ -10,15 +11,7 @@ export default function KnowledgeBase() {
     return <Navigate to='/404' replace />
   }
   
-  const subjectNames = {
-    math: 'Математика',
-    russian: 'Русский язык',
-    biology: 'Биология',
-    history: 'История',
-    english: 'Английский язык'
-  }
-  
-  const subjectName = subjectNames[subject] || subject
+  const subjectName = getSubjectName(subject) || subject
   
   return (
     <div className='space-y-6'>

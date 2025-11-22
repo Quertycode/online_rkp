@@ -5,28 +5,36 @@ import coursesData from "../data/courses.json";
 
 export default function TeacherPanel() {
   return (
-    <div className="max-w-5xl mx-auto space-y-6">
-      <h2 className="text-2xl font-semibold mb-4">Панель учителя</h2>
+    <div className="container max-w-[1280px] mx-auto px-6 py-6 space-y-6">
+      <h1 className="text-2xl font-semibold mb-4">Панель учителя</h1>
 
       <Card title="Домашние задания по курсам">
-        {Object.entries(coursesData).map(([key, course]) => (
-          <div key={key} className="mb-4">
-            <h3 className="font-semibold mb-2">{course.title}</h3>
-            {course.lessons.map((lesson) => (
-              <div key={lesson.id} className="ml-4 text-sm">
-                <p className="font-medium">{lesson.title}</p>
-                <ul className="list-disc ml-5 text-gray-700">
-                  {lesson.homework.map((id) => {
-                    const task = tasksData.find((t) => t.id === id);
-                    return (
-                      <li key={id}>{task?.question || "— вопрос не найден —"}</li>
-                    );
-                  })}
-                </ul>
+        <div className="space-y-6">
+          {Object.entries(coursesData).map(([key, course]) => (
+            <div key={key} className="border-b border-gray-200 pb-4 last:border-b-0">
+              <h3 className="font-semibold mb-3 text-lg text-cyan-800">{course.title}</h3>
+              <div className="space-y-4">
+                {course.lessons.map((lesson) => (
+                  <div key={lesson.id} className="ml-4">
+                    <p className="font-medium mb-2 text-gray-800">{lesson.title}</p>
+                    {lesson.homework && lesson.homework.length > 0 ? (
+                      <ul className="list-disc ml-5 text-sm text-gray-700 space-y-1">
+                        {lesson.homework.map((id) => {
+                          const task = tasksData.find((t) => t.id === id);
+                          return (
+                            <li key={id}>{task?.question || "— вопрос не найден —"}</li>
+                          );
+                        })}
+                      </ul>
+                    ) : (
+                      <p className="text-sm text-gray-500 ml-5">Нет домашних заданий</p>
+                    )}
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        ))}
+            </div>
+          ))}
+        </div>
       </Card>
 
       <Card title="Комментарии к работам (в будущем)">

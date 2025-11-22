@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 import path from 'path'
 
 export default defineConfig({
-  base: '/edumvp/',
+  base: '/',
   plugins: [react()],
   resolve: {
     alias: {
@@ -14,6 +14,14 @@ export default defineConfig({
       '@services': path.resolve(__dirname, './src/services'),
       '@utils': path.resolve(__dirname, './src/utils'),
       '@styles': path.resolve(__dirname, './src/styles'),
+    },
+  },
+  server: {
+    proxy: {
+      '/tasks/images': {
+        target: 'http://localhost:3001',
+        changeOrigin: true,
+      },
     },
   },
 })

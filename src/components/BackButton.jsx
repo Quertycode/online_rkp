@@ -10,8 +10,8 @@ export default function BackButton() {
   }
 
   const handleBack = () => {
-    // Если пришли с header или находимся на account, идем на главную
-    if (location.state?.fromHeader || location.pathname === '/account') {
+    // Если пришли с header, находимся на account или gamification, идем на главную
+    if (location.state?.fromHeader || location.pathname === '/account' || location.pathname === '/gamification') {
       navigate('/')
     } else {
       // Иначе возвращаемся назад
@@ -19,7 +19,7 @@ export default function BackButton() {
     }
   }
 
-  const isFromHeader = location.state?.fromHeader || location.pathname === '/account'
+  const isFromHeader = location.state?.fromHeader || location.pathname === '/account' || location.pathname === '/gamification'
 
   return (
     <div className='fixed left-2 md:left-4 top-24 z-10'>

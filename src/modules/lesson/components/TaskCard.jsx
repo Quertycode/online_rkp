@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 /**
- * Карточка задания для домашней работы
+ * Карточка задания по занятию
  * @param {Object} task - Объект задания
  * @param {string} answer - Текущий ответ
  * @param {function} onSubmit - Функция отправки ответа

@@ -37,9 +37,11 @@ export function createTestNotifications(username) {
  * Примеры других типов уведомлений для реального использования
  */
 
+import { getSubjectName } from '../constants/subjects'
+
 // Для успешного выполнения задания
 export function notifyTaskCompleted(username, subject) {
-  const subjectName = subject === 'math' ? 'Математике' : 'Русскому языку'
+  const subjectName = getSubjectName(subject) || subject
   addNotification(username, {
     text: `Отличная работа! Вы решили задание по ${subjectName}`,
     emoji: '🎉'
@@ -72,7 +74,7 @@ export function notifyTeacherComment(username) {
 
 // Новый доступ к предмету (для админа)
 export function notifyAccessGranted(username, subject) {
-  const subjectName = subject === 'math' ? 'Математику' : 'Русский язык'
+  const subjectName = getSubjectName(subject) || subject
   addNotification(username, {
     text: `Вам предоставлен доступ к ${subjectName}`,
     emoji: '🎓'

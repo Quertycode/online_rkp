@@ -13,9 +13,9 @@ export default function WebinarModule() {
   const timeLeft = useWebinarTimer(targetDate)
 
   return (
-    <Card className='h-full flex flex-col p-0 overflow-hidden'>
+    <Card className='flex flex-col p-0 overflow-hidden'>
       {/* Header Section */}
-      <div className='px-3 pt-0 pb-3'>
+      <div className='px-3 pt-0 pb-2 flex-shrink-0'>
         <div className='text-center mb-2'>
           <h2 className='text-lg md:text-xl font-semibold text-cyan-800 whitespace-nowrap'>
             Ближайший вебинар
@@ -25,7 +25,7 @@ export default function WebinarModule() {
       </div>
 
       {/* Video Section */}
-      <div className='px-3 pb-3'>
+      <div className='px-3 pb-2 flex-shrink-0'>
         <VideoIframe 
           videoUrl='https://www.youtube.com/embed/7RhFlrACEbI?start=4972&autoplay=0&controls=1&modestbranding=1'
           title='Ближайший вебинар'
@@ -33,12 +33,12 @@ export default function WebinarModule() {
       </div>
 
       {/* Timer Section */}
-      <div className='px-3 pb-3'>
+      <div className='px-3 pb-2 flex-shrink-0'>
         <TimerSection timeLeft={timeLeft} />
       </div>
 
       {/* Description Section */}
-      <div className='px-3 pb-4'>
+      <div className='px-3 pb-3 flex flex-col'>
         <DescriptionSection />
       </div>
     </Card>

@@ -50,3 +50,229 @@ body {
   padding: 0 24px;
   box-sizing: border-box;
 }
+
+/* ======================
+   ТЕМЫ ОФОРМЛЕНИЯ
+   ====================== */
+
+/* Стандартная тема (светлая) */
+:root,
+.theme-standard {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9fafb;
+  --bg-gradient-from: #ecfeff;
+  --bg-gradient-to: #ffffff;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --border-color: #e5e7eb;
+  --accent-color: #06b6d4;
+  --accent-hover: #0891b2;
+}
+
+/* Темная тема */
+.theme-dark {
+  --bg-primary: #1f2937;
+  --bg-secondary: #111827;
+  --bg-gradient-from: #111827;
+  --bg-gradient-to: #1f2937;
+  --text-primary: #f9fafb;
+  --text-secondary: #9ca3af;
+  --border-color: #374151;
+  --accent-color: #06b6d4;
+  --accent-hover: #22d3ee;
+}
+
+.theme-dark body {
+  @apply bg-gray-900 text-gray-100;
+}
+
+.theme-dark header {
+  @apply bg-gray-800/70 border-gray-700;
+}
+
+.theme-dark .bg-white {
+  @apply bg-gray-800 text-gray-100;
+}
+
+.theme-dark .border-gray-200 {
+  @apply border-gray-700;
+}
+
+.theme-dark .text-gray-800,
+.theme-dark .text-gray-900 {
+  @apply text-gray-100;
+}
+
+.theme-dark .text-gray-600 {
+  @apply text-gray-400;
+}
+
+.theme-dark .bg-gray-50 {
+  @apply bg-gray-700;
+}
+
+.theme-dark .bg-gray-100 {
+  @apply bg-gray-800;
+}
+
+/* Розовая тема */
+.theme-pink {
+  --bg-primary: #fdf2f8;
+  --bg-secondary: #fce7f3;
+  --bg-gradient-from: #fce7f3;
+  --bg-gradient-to: #fbcfe8;
+  --text-primary: #831843;
+  --text-secondary: #9f1239;
+  --border-color: #f9a8d4;
+  --accent-color: #ec4899;
+  --accent-hover: #db2777;
+}
+
+.theme-pink body {
+  @apply bg-pink-50 text-pink-900;
+}
+
+.theme-pink header {
+  @apply bg-pink-100/70 border-pink-200;
+}
+
+.theme-pink .bg-gradient-to-b {
+  @apply from-pink-50 to-white;
+}
+
+.theme-pink .text-cyan-700,
+.theme-pink .text-cyan-600,
+.theme-pink .text-cyan-500 {
+  @apply text-pink-600;
+}
+
+.theme-pink .bg-cyan-500,
+.theme-pink .from-cyan-500,
+.theme-pink .to-cyan-500 {
+  @apply bg-pink-500 from-pink-500 to-pink-500;
+}
+
+.theme-pink .bg-cyan-50 {
+  @apply bg-pink-50;
+}
+
+.theme-pink .border-cyan-100,
+.theme-pink .border-cyan-200,
+.theme-pink .border-cyan-300 {
+  @apply border-pink-200;
+}
+
+.theme-pink .hover\:bg-cyan-600:hover {
+  @apply bg-pink-600;
+}
+
+/* Анимация для Toast уведомлений */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-\[slideInRight_0\.3s_ease-out\] {
+  animation: slideInRight 0.3s ease-out;
+}
+
+/* Анимация для модального окна */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-\[fadeIn_0\.2s_ease-out\] {
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* Стили для HTML контента заданий с сохранением переносов строк */
+.task-html-content {
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.6;
+}
+
+.task-html-content p {
+  margin: 0.5em 0;
+  white-space: pre-wrap;
+}
+
+.task-html-content div {
+  margin: 0.25em 0;
+  white-space: pre-wrap;
+}
+
+.task-html-content br {
+  display: block;
+  content: "";
+  margin: 0.25em 0;
+}
+
+/* Стили для изображений в markdown формате - нормальный размер */
+.task-markdown-image {
+  display: block !important;
+  margin: 1em auto !important;
+  max-width: 100% !important;
+  width: auto !important;
+  height: auto !important;
+  object-fit: contain !important;
+}
+
+/* Стили для изображений в HTML контенте заданий */
+.task-html-content img,
+.task-html-content .task-image,
+.task-html-content svg {
+  max-width: 100% !important;
+  width: auto !important;
+  height: auto !important;
+  display: block !important;
+  margin: 1em auto !important;
+  vertical-align: middle;
+  object-fit: contain !important;
+}
+
+/* Для inline изображений (формулы в тексте) */
+.task-html-content img[style*="inline"],
+.task-html-content img.inline {
+  display: inline-block !important;
+  max-height: 2em !important;
+  margin: 0 0.25em !important;
+  vertical-align: middle;
+}
+
+/* Для блочных изображений (диаграммы, рисунки) */
+.task-html-content img[style*="block"],
+.task-html-content img.block,
+.task-html-content p img,
+.task-html-content div img,
+.task-html-content > img {
+  display: block !important;
+  max-width: 100% !important;
+  margin: 1em auto !important;
+}
+
+.task-html-content span {
+  white-space: pre-wrap;
+}
+
+/* Убираем лишние отступы у первого и последнего элементов */
+.task-html-content > *:first-child {
+  margin-top: 0;
+}
+
+.task-html-content > *:last-child {
+  margin-bottom: 0;
+}

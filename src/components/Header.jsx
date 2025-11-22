@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { getCurrentUser, getUserFull, getNotifications, getUnreadCount, markNotificationAsRead } from '../utils/userStore'
+import { useDailyPlans } from '../modules/home/hooks/useDailyPlans'
 import UserProfileButton from './Header/UserProfileButton'
 import NotificationButton from './Header/NotificationButton'
+import MusicPlayer from './Header/MusicPlayer'
+import PomodoroTimer from './Header/PomodoroTimer'
+import CoinsButton from './Header/CoinsButton'
 import ProgressBar from './Header/ProgressBar'
 import Navigation from './Header/Navigation'
 import Logo from './Header/Logo'
@@ -17,6 +21,12 @@ export default function Header() {
   const [fullUser, setFullUser] = useState(null)
   const [notifications, setNotifications] = useState([])
   const [unreadCount, setUnreadCount] = useState(0)
+  
+  // Получаем прогресс выполнения планов на день
+  const dailyPlansHook = useDailyPlans()
+  const dailyProgress = user && dailyPlansHook.plans.topic 
+    ? dailyPlansHook.calculateOverallProgress() 
+    : 0
   
   // Обновляем пользователя при изменении location (для обновления после авторизации/выхода)
   useEffect(() => {
@@ -58,7 +68,10 @@ export default function Header() {
                   notifications={notifications}
                   onMarkAsRead={handleMarkAsRead}
                 />
-                <ProgressBar progress={60} />
+                <MusicPlayer />
+                <PomodoroTimer />
+                <ProgressBar progress={dailyProgress} />
+                <CoinsButton />
               </div>
             </div>
 

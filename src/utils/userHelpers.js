@@ -23,11 +23,20 @@ export function getGreetingName(user, fullUser) {
  */
 export const AVAILABLE_DIRECTIONS = [
   { id: 'math-profile', name: 'Математика (профильная)', examType: 'EGE', subjectKey: 'math' },
-  { id: 'math-base', name: 'Математика (базовая)', examType: 'EGE', subjectKey: 'math' },
-  { id: 'biology', name: 'Биология', examType: 'EGE', subjectKey: 'biology' },
-  { id: 'russian', name: 'Русский язык', examType: 'EGE', subjectKey: 'russian' },
-  { id: 'history', name: 'История', examType: 'EGE', subjectKey: 'history' },
-  { id: 'english', name: 'Английский язык', examType: 'EGE', subjectKey: 'english' },
+  { id: 'math-base', name: 'Математика (базовая)', examType: 'EGE', subjectKey: 'mathb' },
+  { id: 'rus', name: 'Русский язык', examType: 'EGE', subjectKey: 'rus' },
+  { id: 'phys', name: 'Физика', examType: 'EGE', subjectKey: 'phys' },
+  { id: 'inf', name: 'Информатика', examType: 'EGE', subjectKey: 'inf' },
+  { id: 'bio', name: 'Биология', examType: 'EGE', subjectKey: 'bio' },
+  { id: 'chem', name: 'Химия', examType: 'EGE', subjectKey: 'chem' },
+  { id: 'geo', name: 'География', examType: 'EGE', subjectKey: 'geo' },
+  { id: 'soc', name: 'Обществознание', examType: 'EGE', subjectKey: 'soc' },
+  { id: 'hist', name: 'История', examType: 'EGE', subjectKey: 'hist' },
+  { id: 'lit', name: 'Литература', examType: 'EGE', subjectKey: 'lit' },
+  { id: 'en', name: 'Английский язык', examType: 'EGE', subjectKey: 'en' },
+  { id: 'de', name: 'Немецкий язык', examType: 'EGE', subjectKey: 'de' },
+  { id: 'fr', name: 'Французский язык', examType: 'EGE', subjectKey: 'fr' },
+  { id: 'sp', name: 'Испанский язык', examType: 'EGE', subjectKey: 'sp' },
 ]
 
 /**

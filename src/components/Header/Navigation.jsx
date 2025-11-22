@@ -23,12 +23,35 @@ export default function Navigation() {
         Предметы
       </NavLink>
       <NavLink
-        to='/tasks'
+        to='/trainer'
         state={{ fromHeader: true }}
         className={({ isActive }) => (isActive ? activeLinkBase : linkBase)}
       >
         Тренажер
       </NavLink>
+      <NavLink
+        to='/tasks'
+        state={{ fromHeader: true }}
+        className={({ isActive }) => (isActive ? activeLinkBase : linkBase)}
+      >
+        Банк заданий
+      </NavLink>
+      <NavLink
+        to='/homework'
+        state={{ fromHeader: true }}
+        className={({ isActive }) => (isActive ? activeLinkBase : linkBase)}
+      >
+        Домашка
+      </NavLink>
+      {user?.role === 'teacher' && (
+        <NavLink
+          to='/teacher-panel'
+          state={{ fromHeader: true }}
+          className={({ isActive }) => (isActive ? activeLinkBase : linkBase)}
+        >
+          Учитель
+        </NavLink>
+      )}
       {user?.role === 'admin' && (
         <NavLink
           to='/admin'

@@ -1,3 +1,5 @@
+import { getAllSubjects } from '../constants/subjects'
+
 const LS_USERS = 'edumvp_users'
 const LS_CURRENT = 'edumvp_current_user'
 const LS_STATS = 'edumvp_stats'
@@ -7,7 +9,7 @@ const normalize = (value) => (value || '').trim()
 const normalizeEmail = (value) => normalize(value).toLowerCase()
 
 const ensureAccess = (access = {}) => {
-  const subjects = ['math', 'russian', 'biology', 'history', 'english']
+  const subjects = getAllSubjects().map(s => s.code)
   const result = {}
   subjects.forEach(subject => {
     result[subject] = { enabled: Boolean(access[subject]?.enabled) }
@@ -106,7 +108,20 @@ export function initStore() {
         role: 'admin',
         access: {
           math: { enabled: true },
-          russian: { enabled: true }
+          mathb: { enabled: true },
+          rus: { enabled: true },
+          phys: { enabled: true },
+          inf: { enabled: true },
+          bio: { enabled: true },
+          chem: { enabled: true },
+          geo: { enabled: true },
+          soc: { enabled: true },
+          hist: { enabled: true },
+          lit: { enabled: true },
+          en: { enabled: true },
+          de: { enabled: true },
+          fr: { enabled: true },
+          sp: { enabled: true },
         }
       })
     ])

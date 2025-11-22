@@ -6,22 +6,28 @@ export class DirectionsService {
   constructor(private prisma: PrismaService) {}
 
   async findAll() {
-    return this.prisma.direction.findMany({
-      orderBy: { name: 'asc' },
-    })
+    // Временно отключено - модель Direction отсутствует в схеме Prisma
+    // return this.prisma.direction.findMany({
+    //   orderBy: { name: 'asc' },
+    // })
+    return []
   }
 
   async findOne(id: string) {
-    return this.prisma.direction.findUnique({
-      where: { id },
-    })
+    // Временно отключено - модель Direction отсутствует в схеме Prisma
+    // return this.prisma.direction.findUnique({
+    //   where: { id },
+    // })
+    return null
   }
 
   async findByExamType(examType: 'OGE' | 'EGE') {
-    return this.prisma.direction.findMany({
-      where: { examType },
-      orderBy: { name: 'asc' },
-    })
+    // Временно отключено - модель Direction отсутствует в схеме Prisma
+    // return this.prisma.direction.findMany({
+    //   where: { examType },
+    //   orderBy: { name: 'asc' },
+    // })
+    return []
   }
 }
 

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { deleteUser, updateUserRole, upsertUser } from '../../../utils/userStore'
 import { AVAILABLE_DIRECTIONS, getUserDirectionsWithSubjects } from '../../../utils/userHelpers'
+import { getAllSubjects, getSubjectName } from '../../../constants/subjects'
 
 /**
  * Строка пользователя в таблице
@@ -14,7 +15,7 @@ export default function UserRow({ user, onUpdate }) {
   const [selectedAccess, setSelectedAccess] = useState({})
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   
-  const subjects = ['math', 'russian', 'biology', 'history', 'english']
+  const subjects = getAllSubjects().map(s => s.code)
 
   useEffect(() => {
     setSelectedDirections(user.directions || [])
@@ -135,6 +136,7 @@ export default function UserRow({ user, onUpdate }) {
           >
             <option value='guest'>guest</option>
             <option value='student'>student</option>
+            <option value='teacher'>teacher</option>
             <option value='admin'>admin</option>
           </select>
         </td>
@@ -236,13 +238,10 @@ export default function UserRow({ user, onUpdate }) {
                 <p className='text-sm font-medium text-gray-700 mb-2'>Выберите доступные предметы:</p>
                 <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2'>
                   {subjects.map(subject => {
-                    const subjectNames = {
-                      math: 'Математика',
-                      russian: 'Русский язык',
-                      biology: 'Биология',
-                      history: 'История',
-                      english: 'Английский язык'
-                    }
+                    const subjectNames = subjects.reduce((acc, code) => {
+                      acc[code] = getSubjectName(code)
+                      return acc
+                    }, {})
                     return (
                       <label
                         key={subject}

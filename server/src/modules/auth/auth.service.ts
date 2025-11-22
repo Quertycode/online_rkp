@@ -27,22 +27,24 @@ export class AuthService {
       data: {
         ...restData,
         password: hashedPassword,
-        directions: directionIds
-          ? {
-              create: directionIds.map((directionId) => ({
-                direction: {
-                  connect: { id: directionId },
-                },
-              })),
-            }
-          : undefined,
+        // Временно отключено - модель Direction отсутствует в схеме Prisma
+        // directions: directionIds
+        //   ? {
+        //       create: directionIds.map((directionId) => ({
+        //         direction: {
+        //           connect: { id: directionId },
+        //         },
+        //       })),
+        //     }
+        //   : undefined,
       },
       include: {
-        directions: {
-          include: {
-            direction: true,
-          },
-        },
+        // Временно отключено - модель Direction отсутствует в схеме Prisma
+        // directions: {
+        //   include: {
+        //     direction: true,
+        //   },
+        // },
       },
     })
 

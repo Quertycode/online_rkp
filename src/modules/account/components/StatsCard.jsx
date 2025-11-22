@@ -1,4 +1,5 @@
 import Card from '../../../components/Card'
+import { getSubjectName } from '../../../constants/subjects'
 
 /**
  * Карточка статистики пользователя
@@ -27,7 +28,7 @@ export default function StatsCard({ stats }) {
             const subjectPercent = summary.total
               ? Math.round((summary.correct / summary.total) * 100)
               : 0
-            const subjectLabel = subject === 'math' ? 'Математика' : 'Русский язык'
+            const subjectLabel = getSubjectName(subject) || subject
             return (
               <div key={subject} className='border border-cyan-200 rounded-xl p-3'>
                 <div className='mb-1 font-medium'>{subjectLabel}</div>
