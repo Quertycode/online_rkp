@@ -1,7 +1,7 @@
-import { Link, Navigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { getCurrentUser, getUserFull } from '../utils/userStore'
-import { getUserDirectionsWithSubjects } from '../utils/userHelpers'
+import { getCourses } from '../utils/courseStore'
 import { getSubjectName } from '../constants/subjects'
 import OverlayPortal from '../components/OverlayPortal'
 import CourseListManager from '../modules/admin/components/CourseListManager'
@@ -33,27 +33,14 @@ export default function Courses() {
     )
   }
 
-  // Получаем уникальные предметы из направлений пользователя
-  const userDirections = getUserDirectionsWithSubjects(user.directions || [])
-  const subjectMap = new Map()
-  
-  userDirections.forEach(dir => {
-    if (!subjectMap.has(dir.subjectKey)) {
-      subjectMap.set(dir.subjectKey, {
-        key: dir.subjectKey,
-        title: getSubjectName(dir.subjectKey) || dir.name
-      })
-    }
-  })
-  
-  const items = Array.from(subjectMap.values())
-  const allowedItems = items.filter((c) => full?.access?.[c.key]?.enabled)
-
-  // Если доступен ровно один курс с разрешённым доступом — сразу открываем его
-  if (allowedItems.length === 1) {
-    const only = allowedItems[0]
-      return <Navigate to={`/courses/${only.key}`} replace state={{ fromAutoCourse: true }} />
-  }
+  // Все курсы платформы (база + добавленные админом)
+  const courseItems = Object.entries(getCourses() || {})
+    .map(([key, course]) => ({
+      key,
+      title: course?.title || getSubjectName(key) || key
+    }))
+    .sort((a, b) => a.title.localeCompare(b.title, 'ru'))
+  const hasAccess = (key) => Boolean(full?.access?.[key]?.enabled)
 
   return (
     <div className="container max-w-[1280px] mx-auto px-6 py-6 space-y-4">
@@ -70,23 +57,34 @@ export default function Courses() {
       </div>
       
       <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
-        {allowedItems.length === 0 ? (
+        {courseItems.length === 0 ? (
           <div className='col-span-2 text-center py-8 text-gray-500 border border-cyan-200 rounded-2xl p-6 bg-white/90'>
-            У вас пока нет доступных курсов
+            Курсы ещё не добавлены
           </div>
         ) : (
-          allowedItems.map((c) => (
+          courseItems.map((c) => {
+            const allowed = hasAccess(c.key)
+            return (
               <div key={c.key} className='border border-cyan-200 rounded-2xl p-4 bg-white/90'>
-                <div className='font-semibold mb-2'>{c.title}</div>
-              <div className='text-sm text-gray-600 mb-3'>Доступ открыт</div>
+                <div className='font-semibold mb-1'>{c.title}</div>
+                <div className={`text-sm mb-3 ${allowed ? 'text-green-700' : 'text-gray-500'}`}>
+                  {allowed ? 'Доступ открыт' : 'Доступ закрыт'}
+                </div>
+                {allowed ? (
                   <Link
                     to={`/courses/${c.key}`}
                     className='inline-block px-4 py-2 bg-cyan-600 text-white rounded-xl hover:bg-cyan-700 transition'
                   >
                     Открыть курс
                   </Link>
+                ) : (
+                  <span className='inline-block px-4 py-2 rounded-xl border border-gray-200 text-gray-500 bg-gray-50 cursor-not-allowed'>
+                    Нет доступа
+                  </span>
+                )}
               </div>
-          ))
+            )
+          })
         )}
       </div>
 

@@ -11,6 +11,7 @@ import Courses from './pages/Courses'
 import CourseLessons from './pages/CourseLessons'
 import LessonDetails from './pages/LessonDetails'
 import Practice from './pages/Practice'
+import TaskDetails from './pages/TaskDetails'
 import Account from './pages/Account'
 import Login from './pages/Login'
 import AdminPanel from './pages/AdminPanel'
@@ -103,6 +104,14 @@ export default function App() {
                 element={
                   <ProtectedRoute roles={['student', 'teacher', 'admin']}>
                     <div className='p-4 md:p-6'><LessonDetails /></div>
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path='/tasks/:taskId' 
+                element={
+                  <ProtectedRoute roles={['student', 'teacher', 'admin']}>
+                    <div className='p-4 md:p-6'><TaskDetails /></div>
                   </ProtectedRoute>
                 } 
               />

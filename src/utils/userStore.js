@@ -4,6 +4,7 @@ const LS_USERS = 'edumvp_users'
 const LS_CURRENT = 'edumvp_current_user'
 const LS_STATS = 'edumvp_stats'
 const LS_NOTIFICATIONS = 'edumvp_notifications'
+const LS_LAST_COURSE_PREFIX = 'edumvp_last_course_'
 
 const normalize = (value) => (value || '').trim()
 const normalizeEmail = (value) => normalize(value).toLowerCase()
@@ -38,7 +39,6 @@ const ensureUserStructure = (user) => {
     birthdate: user.birthdate ?? '',
     phone: user.phone ?? '',
     avatar: user.avatar ?? '',
-    directions: user.directions ?? [],
     access: ensureAccess(user.access),
     password: user.password ?? '',
     createdAt: user.createdAt || new Date().toISOString()
@@ -136,7 +136,6 @@ export function register(email, password, firstName, lastName, birthdate, phone)
     lastName: normalize(lastName),
     birthdate: normalize(birthdate),
     phone: normalize(phone),
-    directions: [],
     role: 'guest',
     access: {},
     createdAt: new Date().toISOString()
@@ -152,7 +151,6 @@ export function register(email, password, firstName, lastName, birthdate, phone)
     birthdate: user.birthdate,
     phone: user.phone,
     avatar: user.avatar,
-    directions: user.directions,
     access: user.access
   })
   return user
@@ -179,7 +177,6 @@ export function login(email, password) {
     firstName: user.firstName,
     lastName: user.lastName,
     avatar: user.avatar,
-    directions: user.directions,
     access: user.access
   })
   return user
@@ -203,7 +200,6 @@ export function updateUserRole(username, role) {
         firstName: full.firstName,
         lastName: full.lastName,
         avatar: full.avatar,
-        directions: full.directions,
         access: full.access
       })
     }
@@ -236,7 +232,6 @@ export function upsertUser(obj) {
       firstName: full.firstName,
       lastName: full.lastName,
       avatar: full.avatar,
-      directions: full.directions,
       access: full.access
     })
   }
@@ -290,7 +285,6 @@ export function updateUserCredentials(username, data = {}) {
       lastName: full.lastName,
       phone: full.phone,
       avatar: full.avatar,
-      directions: full.directions,
       access: full.access
     })
   }
@@ -414,4 +408,18 @@ export function clearNotifications(username) {
     notifications[normalizedUsername] = []
     save(LS_NOTIFICATIONS, notifications)
   }
+}
+
+// Запомнить последний выбранный курс для пользователя
+export function setLastCourse(username, courseCode) {
+  const normalizedUsername = normalizeEmail(username)
+  if (!normalizedUsername || !courseCode || typeof localStorage === 'undefined') return
+  localStorage.setItem(`${LS_LAST_COURSE_PREFIX}${normalizedUsername}`, courseCode)
+}
+
+// Получить последний выбранный курс пользователя
+export function getLastCourse(username) {
+  const normalizedUsername = normalizeEmail(username)
+  if (!normalizedUsername || typeof localStorage === 'undefined') return null
+  return localStorage.getItem(`${LS_LAST_COURSE_PREFIX}${normalizedUsername}`)
 }

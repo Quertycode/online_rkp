@@ -19,7 +19,7 @@ export default function ProfileHeader({ user, fullUser }) {
     admin: 'Администратор',
     teacher: 'Преподаватель',
     parent: 'Родитель',
-    student: 'Ученик',
+    student: 'Студент',
     guest: 'Гость',
   }
 

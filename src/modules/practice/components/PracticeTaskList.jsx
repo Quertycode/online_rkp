@@ -17,6 +17,9 @@ export default function PracticeTaskList({
     )
   }
 
+  const isTest = (task) =>
+    task.taskType === 'test' || (Array.isArray(task.questions) && task.questions.length > 0)
+
   const grouped = Object.values(
     tasks.reduce((acc, task) => {
       const key = String(task.lessonId)
@@ -32,80 +35,135 @@ export default function PracticeTaskList({
     }, {})
   ).sort((a, b) => (a.lessonOrder || 0) - (b.lessonOrder || 0))
 
-  const [showHidden, setShowHidden] = useState(false)
+  const [expandedPractice, setExpandedPractice] = useState({})
+  const [expandedTests, setExpandedTests] = useState({})
 
-  const visibleGroups = []
-  const hiddenGroups = []
-  grouped.forEach((group) => {
-    const total = group.tasks.length
-    const done = group.tasks.filter((t) => completedSet.has(String(t.id))).length
-    if (total > 0 && done === total) hiddenGroups.push(group)
-    else visibleGroups.push(group)
-  })
-
-  const groupsToRender = showHidden ? grouped : visibleGroups
-  const hiddenCount = hiddenGroups.length
+  const toggleExpandPractice = (lessonId) =>
+    setExpandedPractice((prev) => ({ ...prev, [lessonId]: !prev[lessonId] }))
+  const toggleExpandTests = (lessonId) =>
+    setExpandedTests((prev) => ({ ...prev, [lessonId]: !prev[lessonId] }))
 
   return (
-    <div className='space-y-4'>
-      {hiddenCount > 0 && (
-        <div className='flex justify-end'>
-          <button
-            type='button'
-            onClick={() => setShowHidden((v) => !v)}
-            className='text-sm px-3 py-2 rounded-xl border border-cyan-200 bg-white text-cyan-700 hover:bg-cyan-50 transition'
-          >
-            {showHidden ? 'Скрыть выполненные' : `Показать выполненные (${hiddenCount})`}
-          </button>
-        </div>
-      )}
+    <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
+      <div className='space-y-4'>
+        {grouped.map((group) => {
+          const list = group.tasks.filter((t) => !isTest(t))
+          if (!list.length) return null
+          const totalDone = list.filter((t) => completedSet.has(String(t.id))).length
+          const showAll = expandedPractice[group.lessonId]
+          const sliceTasks = showAll ? list : list.slice(0, 5)
 
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-        {groupsToRender.map((group) => {
-        const total = group.tasks.length
-        const done = group.tasks.filter((t) => completedSet.has(String(t.id))).length
-
-        return (
-          <div
-            key={group.lessonId}
-            className='rounded-2xl border border-cyan-100 bg-white shadow-sm p-4 space-y-3'
-          >
-            <div className='flex items-start justify-between gap-2'>
-              <Link
-                to={`/courses/${subject}/${group.lessonId}`}
-                className='flex items-center gap-2 overflow-hidden text-base text-gray-700 hover:text-orange-600 transition'
-              >
-                <span className='px-2 py-1 rounded-full bg-orange-50 border border-orange-200 text-orange-600 text-sm shrink-0'>
-                  Занятие {group.lessonOrder}
+          return (
+            <div
+              key={`practice-${group.lessonId}`}
+              className='rounded-2xl border border-cyan-100 bg-white shadow-sm p-4 space-y-3'
+            >
+              <div className='flex items-start justify-between gap-2'>
+                <Link
+                  to={`/courses/${subject}/${group.lessonId}`}
+                  className='flex items-center gap-2 overflow-hidden text-base text-gray-700 hover:text-orange-600 transition'
+                >
+                  <span className='px-2 py-1 rounded-full bg-orange-50 border border-orange-200 text-orange-600 text-sm shrink-0'>
+                    Занятие {group.lessonOrder}
+                  </span>
+                  <span className='flex-1 min-w-0 truncate whitespace-nowrap font-semibold text-base text-gray-900 hover:text-orange-700'>
+                    {group.lessonTitle}
+                  </span>
+                </Link>
+                <span className='text-xs text-gray-500 whitespace-nowrap'>
+                  {totalDone} / {list.length}
                 </span>
-                <span className='flex-1 min-w-0 truncate whitespace-nowrap font-semibold text-base text-gray-900 hover:text-orange-700'>
-                  {group.lessonTitle}
-                </span>
-              </Link>
-              <span className='text-xs text-gray-500 whitespace-nowrap'>
-                {done} / {total}
-              </span>
-            </div>
+              </div>
 
-            <div className='space-y-3'>
-              {group.tasks.map((task, idx) => (
-                <PracticeTaskCard
-                  key={task.id}
-                  task={task}
-                  subject={subject}
-                  completed={completedSet.has(String(task.id))}
-                  displayIndex={idx + 1}
-                  onComplete={onComplete}
-                  onReset={onReset}
-                />
-              ))}
+              <div className='space-y-2'>
+                {sliceTasks.map((task) => (
+                  <PracticeTaskCard
+                    key={task.id}
+                    task={task}
+                    subject={subject}
+                    completed={completedSet.has(String(task.id))}
+                  />
+                ))}
+                {list.length > 5 && !showAll && (
+                  <div className='text-xs text-gray-500'>Показано 5 из {list.length}</div>
+                )}
+              </div>
+
+              {list.length > 5 && (
+                <div className='pt-2'>
+                  <button
+                    type='button'
+                    onClick={() => toggleExpandPractice(group.lessonId)}
+                    className='text-sm px-3 py-2 rounded-xl border border-cyan-200 bg-white text-cyan-700 hover:bg-cyan-50 transition'
+                  >
+                    {showAll ? 'Скрыть' : 'Посмотреть все'}
+                  </button>
+                </div>
+              )}
             </div>
-          </div>
-        )
-      })}
+          )
+        })}
+      </div>
+
+      <div className='space-y-4'>
+        {grouped.map((group) => {
+          const list = group.tasks.filter(isTest)
+          if (!list.length) return null
+          const totalDone = list.filter((t) => completedSet.has(String(t.id))).length
+          const showAll = expandedTests[group.lessonId]
+          const sliceTasks = showAll ? list : list.slice(0, 5)
+
+          return (
+            <div
+              key={`test-${group.lessonId}`}
+              className='rounded-2xl border border-cyan-100 bg-white shadow-sm p-4 space-y-3'
+            >
+              <div className='flex items-start justify-between gap-2'>
+                <Link
+                  to={`/courses/${subject}/${group.lessonId}`}
+                  className='flex items-center gap-2 overflow-hidden text-base text-gray-700 hover:text-orange-600 transition'
+                >
+                  <span className='px-2 py-1 rounded-full bg-orange-50 border border-orange-200 text-orange-600 text-sm shrink-0'>
+                    Занятие {group.lessonOrder}
+                  </span>
+                  <span className='flex-1 min-w-0 truncate whitespace-nowrap font-semibold text-base text-gray-900 hover:text-orange-700'>
+                    {group.lessonTitle}
+                  </span>
+                </Link>
+                <span className='text-xs text-gray-500 whitespace-nowrap'>
+                  {totalDone} / {list.length}
+                </span>
+              </div>
+
+              <div className='space-y-2'>
+                {sliceTasks.map((task) => (
+                  <PracticeTaskCard
+                    key={task.id}
+                    task={task}
+                    subject={subject}
+                    completed={completedSet.has(String(task.id))}
+                  />
+                ))}
+                {list.length > 5 && !showAll && (
+                  <div className='text-xs text-gray-500'>Показано 5 из {list.length}</div>
+                )}
+              </div>
+
+              {list.length > 5 && (
+                <div className='pt-2'>
+                  <button
+                    type='button'
+                    onClick={() => toggleExpandTests(group.lessonId)}
+                    className='text-sm px-3 py-2 rounded-xl border border-cyan-200 bg-white text-cyan-700 hover:bg-cyan-50 transition'
+                  >
+                    {showAll ? 'Скрыть' : 'Посмотреть все'}
+                  </button>
+                </div>
+              )}
+            </div>
+          )
+        })}
       </div>
     </div>
   )
 }
-
-

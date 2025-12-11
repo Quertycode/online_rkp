@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { getCurrentUser, getUserFull } from '../utils/userStore'
+import { getCurrentUser, getUserFull, setLastCourse } from '../utils/userStore'
 import { COURSE_STORAGE_KEY, getCourse, getCourses, getLessons, getLessonTasks } from '../utils/courseStore'
 import LessonCard from '../modules/course/components/LessonCard'
 import LessonFilter from '../modules/course/components/LessonFilter'
@@ -85,6 +85,13 @@ export default function CourseLessons() {
     }
   }, [subject])
 
+  // Запоминаем последний выбранный курс
+  useEffect(() => {
+    if (user?.username && subject) {
+      setLastCourse(user.username, subject)
+    }
+  }, [subject, user?.username])
+
   if (!user) {
     return (
       <div className="container max-w-[1280px] mx-auto px-6 py-6">
@@ -157,7 +164,7 @@ export default function CourseLessons() {
                     type='button'
                     onClick={() => {
                       setCoursePickerOpen(false)
-                      if (code !== subject) navigate(`/courses/${code}`)
+                      if (code !== subject) navigate(`/courses/${code}`, { state: { fromHeader: true } })
                     }}
                     className={`w-full text-left px-3 py-2 rounded-xl text-sm transition ${
                       code === subject

@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import { getCurrentUser } from '../../../utils/userStore'
-import { getUserDirectionsWithSubjects } from '../../../utils/userHelpers'
 import { addCoins } from '../../../utils/gamificationStore'
 import { COIN_REWARDS } from '../../../constants/prices'
 import tasks from '../../../data/tasks.json'
@@ -69,21 +68,13 @@ export function useTrainer() {
   const [solvedToday, setSolvedToday] = useState(0)
   const taskIdRef = useRef(null) // Храним ID текущей задачи, чтобы не менять её при вводе
 
-  // Получаем предметы пользователя
+  // Получаем предметы по открытому доступу
   const userSubjects = useMemo(() => {
-    const userDirections = user?.directions
-    if (!userDirections || userDirections.length === 0) {
-      return []
-    }
-    const directions = getUserDirectionsWithSubjects(userDirections)
-    const subjects = new Set()
-    directions.forEach(dir => {
-      if (dir.subjectKey) {
-        subjects.add(dir.subjectKey)
-      }
-    })
-    return Array.from(subjects)
-  }, [user?.directions])
+    if (!user?.access) return []
+    return Object.entries(user.access)
+      .filter(([, value]) => value?.enabled)
+      .map(([subject]) => subject)
+  }, [user?.access])
 
   // Фильтруем задачи по предметам пользователя
   const availableTasks = useMemo(() => {

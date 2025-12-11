@@ -79,11 +79,15 @@ export function usePracticeTasks() {
     return tasks
       .filter((task) => task.subject === selectedCourse)
       .map((task) => {
+        const computedTaskType =
+          task.taskType ||
+          (task.subject === 'pract_psychology' && Number(task.id) % 2 === 0 ? 'assignment' : 'test')
         const lesson = lessonsMap.get(String(task.lessonId)) || null
         const lessonKey = `${selectedCourse}_${task.lessonId}`
         const lessonDone = Boolean(lessonProgress[lessonKey]?.completed)
         return {
           ...task,
+          taskType: computedTaskType,
           lessonTitle: lesson?.title || 'Занятие',
           lessonOrder: lesson?.order ?? Number.MAX_SAFE_INTEGER,
           lessonKey,

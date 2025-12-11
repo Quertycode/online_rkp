@@ -7,10 +7,12 @@ import { Link } from 'react-router-dom'
  * @param {Object} progress - Прогресс урока
  */
 export default function LessonCard({ lesson, subject, progress, totalTasks = 0, completedTasks = 0 }) {
-  const isCompleted = progress.watched && progress.completed
-  const practiceDone = totalTasks > 0 && completedTasks >= totalTasks
+  const hasPractice = totalTasks > 0
+  const practiceDone = hasPractice && completedTasks >= totalTasks
+  const isCompleted = progress.watched && (practiceDone || !hasPractice)
+  const practiceStatusDone = hasPractice ? practiceDone : progress.watched
   const practiceLabel =
-    totalTasks === 0
+    !hasPractice
       ? 'Практика отсутствует'
       : practiceDone
         ? 'Практика выполнена'
@@ -53,8 +55,10 @@ export default function LessonCard({ lesson, subject, progress, totalTasks = 0, 
           ></span>
           Видео {progress.watched ? 'просмотрено' : 'не просмотрено'}
         </span>
-        <span className={`flex items-center gap-1 ${practiceDone ? 'text-green-600' : 'text-gray-500'}`}>
-          <span className={`w-2 h-2 rounded-full ${practiceDone ? 'bg-green-500' : 'bg-gray-300'}`}></span>
+        <span className={`flex items-center gap-1 ${practiceStatusDone ? 'text-green-600' : 'text-gray-500'}`}>
+          <span
+            className={`w-2 h-2 rounded-full ${practiceStatusDone ? 'bg-green-500' : 'bg-gray-300'}`}
+          ></span>
           {practiceLabel}
         </span>
       </div>

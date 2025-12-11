@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { deleteUser, updateUserRole, upsertUser } from '../../../utils/userStore'
-import { AVAILABLE_DIRECTIONS, getDirectionsList, getUserDirectionsWithSubjects } from '../../../utils/userHelpers'
 import { getAllSubjects, getSubjectName } from '../../../constants/subjects'
 
 /**
@@ -9,39 +8,31 @@ import { getAllSubjects, getSubjectName } from '../../../constants/subjects'
  * @param {function} onUpdate - Функция обновления
  */
 export default function UserRow({ user, onUpdate }) {
-  const [isEditingDirections, setIsEditingDirections] = useState(false)
   const [isEditingAccess, setIsEditingAccess] = useState(false)
-  const [selectedDirections, setSelectedDirections] = useState(user.directions || [])
   const [selectedAccess, setSelectedAccess] = useState({})
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   
   const [subjects, setSubjects] = useState(getAllSubjects().map((s) => s.code))
-  const [directions, setDirections] = useState(getDirectionsList())
 
   useEffect(() => {
-    setSelectedDirections(user.directions || [])
     setSelectedAccess(user.access || {})
     const reloadSubjects = () => setSubjects(getAllSubjects().map((s) => s.code))
-    const reloadDirections = () => setDirections(getDirectionsList())
     const handleStorage = (e) => {
       if (!e || e.key === null || e.key === 'edumvp_courses_state_v1') {
         reloadSubjects()
-        reloadDirections()
       }
     }
     window.addEventListener('edumvp_courses_updated', () => {
       reloadSubjects()
-      reloadDirections()
     })
     window.addEventListener('storage', handleStorage)
     return () => {
       window.removeEventListener('edumvp_courses_updated', () => {
         reloadSubjects()
-        reloadDirections()
       })
       window.removeEventListener('storage', handleStorage)
     }
-  }, [user.directions, user.access])
+  }, [user.access])
 
   const updateUserName = (username, field, value) => {
     const updatedUser = {
@@ -71,26 +62,6 @@ export default function UserRow({ user, onUpdate }) {
     setShowDeleteConfirm(false)
   }
 
-  const handleDirectionsSave = () => {
-    const updatedUser = { ...user, directions: selectedDirections }
-    upsertUser(updatedUser)
-    setIsEditingDirections(false)
-    onUpdate()
-  }
-
-  const handleDirectionsCancel = () => {
-    setSelectedDirections(user.directions || [])
-    setIsEditingDirections(false)
-  }
-
-  const toggleDirection = (directionId) => {
-    setSelectedDirections(prev =>
-      prev.includes(directionId)
-        ? prev.filter(id => id !== directionId)
-        : [...prev, directionId]
-    )
-  }
-
   const handleAccessSave = () => {
     const updatedUser = { ...user, access: selectedAccess }
     upsertUser(updatedUser)
@@ -110,7 +81,7 @@ export default function UserRow({ user, onUpdate }) {
     }))
   }
 
-  const userDirections = getUserDirectionsWithSubjects(user.directions || [])
+  const enabledAccessCount = Object.values(user.access || {}).filter((item) => item?.enabled).length
 
   return (
     <>
@@ -145,44 +116,26 @@ export default function UserRow({ user, onUpdate }) {
           </select>
         </td>
         <td className='py-2'>
-          {!isEditingDirections && !isEditingAccess ? (
+          {!isEditingAccess ? (
             <button
-              onClick={() => setIsEditingDirections(true)}
-              className='px-3 py-1 rounded bg-cyan-600 text-white hover:bg-cyan-700 text-sm whitespace-nowrap'
+              onClick={() => setIsEditingAccess(true)}
+              className='px-3 py-1 rounded bg-blue-600 text-white hover:bg-blue-700 text-sm whitespace-nowrap'
             >
-              {userDirections.length > 0 
-                ? `${userDirections.length} предмет${userDirections.length > 1 ? 'а' : ''}` 
-                : 'Выбрать'
-              }
+              {enabledAccessCount > 0
+                ? `${enabledAccessCount} предмет${enabledAccessCount > 1 ? 'а' : ''}`
+                : 'Открыть'}
             </button>
-          ) : !isEditingDirections && isEditingAccess ? (
+          ) : (
             <button
               onClick={handleAccessCancel}
               className='px-3 py-1 rounded bg-gray-500 text-white hover:bg-gray-600 text-sm whitespace-nowrap'
             >
               Отмена
             </button>
-          ) : null}
+          )}
         </td>
         <td className='py-2'>
-          {!isEditingAccess && !isEditingDirections ? (
-            <button
-              onClick={() => setIsEditingAccess(true)}
-              className='px-3 py-1 rounded bg-blue-600 text-white hover:bg-blue-700 text-sm whitespace-nowrap'
-            >
-              Открыть
-            </button>
-          ) : !isEditingAccess && isEditingDirections ? (
-            <button
-              onClick={handleDirectionsCancel}
-              className='px-3 py-1 rounded bg-gray-500 text-white hover:bg-gray-600 text-sm whitespace-nowrap'
-            >
-              Отмена
-            </button>
-          ) : null}
-        </td>
-        <td className='py-2'>
-          {!isEditingDirections && !isEditingAccess && !showDeleteConfirm && (
+          {!isEditingAccess && !showDeleteConfirm && (
             <button
               onClick={handleDelete}
               className='px-3 py-1 rounded bg-rose-600 text-white hover:bg-rose-700 text-sm whitespace-nowrap'
@@ -192,51 +145,9 @@ export default function UserRow({ user, onUpdate }) {
           )}
         </td>
       </tr>
-      {isEditingDirections && (
-        <tr className='border-t bg-gray-50'>
-          <td colSpan='7' className='py-4 px-2'>
-            <div className='space-y-3'>
-              <div>
-                <p className='text-sm font-medium text-gray-700 mb-2'>Выберите предметы:</p>
-                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2'>
-                  {directions.map(direction => (
-                    <label
-                      key={direction.id}
-                      className='flex items-center gap-2 p-2 rounded border border-gray-300 hover:bg-gray-100 cursor-pointer'
-                    >
-                      <input
-                        type='checkbox'
-                        checked={selectedDirections.includes(direction.id)}
-                        onChange={() => toggleDirection(direction.id)}
-                        className='w-4 h-4 text-cyan-600'
-                      />
-                      <span className='text-sm'>{direction.name}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-              <div className='flex gap-2'>
-                <button
-                  onClick={handleDirectionsSave}
-                  className='px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700 text-sm'
-                  disabled={selectedDirections.length === 0}
-                >
-                  Сохранить
-                </button>
-                <button
-                  onClick={handleDirectionsCancel}
-                  className='px-4 py-2 rounded bg-gray-500 text-white hover:bg-gray-600 text-sm'
-                >
-                  Отмена
-                </button>
-              </div>
-            </div>
-          </td>
-        </tr>
-      )}
       {isEditingAccess && (
         <tr className='border-t bg-blue-50'>
-          <td colSpan='7' className='py-4 px-2'>
+          <td colSpan='6' className='py-4 px-2'>
             <div className='space-y-3'>
               <div>
                 <p className='text-sm font-medium text-gray-700 mb-2'>Выберите доступные предметы:</p>
@@ -277,7 +188,7 @@ export default function UserRow({ user, onUpdate }) {
       )}
       {showDeleteConfirm && (
         <tr className='border-t bg-red-50'>
-          <td colSpan='7' className='py-4 px-2'>
+          <td colSpan='6' className='py-4 px-2'>
             <div className='space-y-3'>
               <div className='text-sm text-gray-700'>
                 <p className='font-medium mb-2'>Вы уверены, что хотите удалить пользователя?</p>

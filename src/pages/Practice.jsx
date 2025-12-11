@@ -43,7 +43,7 @@ export default function Practice() {
   }))
 
   return (
-    <div className='w-full max-w-[1600px] mx-auto px-6 py-8 space-y-6'>
+    <div className='w-full max-w-[1600px] mx-auto px-6 pt-[5px] pb-[5px] space-y-6'>
       <PracticeHeader
         courseTitle={courseOptions.find((c) => c.code === selectedCourse)?.title || ''}
         stats={stats}

@@ -6,7 +6,6 @@
 export default function LessonTabs({ activeTab, onTabChange }) {
   const tabs = [
     { id: 'video', label: 'Видео' },
-    { id: 'homework', label: 'Задание по занятию' },
     { id: 'materials', label: 'Материалы' }
   ]
 

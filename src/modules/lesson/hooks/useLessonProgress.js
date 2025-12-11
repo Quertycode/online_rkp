@@ -60,21 +60,27 @@ export function useLessonProgress(subject, lessonId) {
     setHomeworkAnswers(newAnswers)
     localStorage.setItem(`homework_${user.username}`, JSON.stringify(newAnswers))
 
-    // Проверяем правильность ответа
+    // Проверяем правильность/завершённость ответа
     const task = getTask(taskId)
-    const isCorrect =
-      task && (task.answer || []).some((correctAnswer) =>
-        (correctAnswer || '').toLowerCase().trim() === answer.toLowerCase().trim()
-    )
+    const taskType =
+      task?.taskType ||
+      (task?.subject === 'pract_psychology' && Number(task?.id) % 2 === 0 ? 'assignment' : 'test')
 
-    // Обновляем прогресс только если ответ правильный
+    let isCorrect = false
+    if (taskType === 'assignment') {
+      isCorrect = true
+    } else {
+      isCorrect =
+        task &&
+        (task.answer || []).some((correctAnswer) =>
+          (correctAnswer || '').toLowerCase().trim() === String(answer || '').toLowerCase().trim()
+        )
+    }
+
+    // Обновляем прогресс если ответ корректен/задание сдано
     if (isCorrect) {
       const progressKey = `${subject}_${lessonId}`
       const currentProgress = progress[progressKey] || { watched: false, completed: false }
-      
-      // Проверяем, все ли задания по занятию выполнены правильно
-      // Это требует знания всех заданий урока, поэтому используем упрощенную логику
-      // Если хотя бы одно задание правильно, помечаем как выполненное
       const newProgress = {
         ...progress,
         [progressKey]: {
