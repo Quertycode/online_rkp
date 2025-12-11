@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { deleteUser, updateUserRole, upsertUser } from '../../../utils/userStore'
-import { AVAILABLE_DIRECTIONS, getUserDirectionsWithSubjects } from '../../../utils/userHelpers'
+import { AVAILABLE_DIRECTIONS, getDirectionsList, getUserDirectionsWithSubjects } from '../../../utils/userHelpers'
 import { getAllSubjects, getSubjectName } from '../../../constants/subjects'
 
 /**
@@ -15,11 +15,32 @@ export default function UserRow({ user, onUpdate }) {
   const [selectedAccess, setSelectedAccess] = useState({})
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   
-  const subjects = getAllSubjects().map(s => s.code)
+  const [subjects, setSubjects] = useState(getAllSubjects().map((s) => s.code))
+  const [directions, setDirections] = useState(getDirectionsList())
 
   useEffect(() => {
     setSelectedDirections(user.directions || [])
     setSelectedAccess(user.access || {})
+    const reloadSubjects = () => setSubjects(getAllSubjects().map((s) => s.code))
+    const reloadDirections = () => setDirections(getDirectionsList())
+    const handleStorage = (e) => {
+      if (!e || e.key === null || e.key === 'edumvp_courses_state_v1') {
+        reloadSubjects()
+        reloadDirections()
+      }
+    }
+    window.addEventListener('edumvp_courses_updated', () => {
+      reloadSubjects()
+      reloadDirections()
+    })
+    window.addEventListener('storage', handleStorage)
+    return () => {
+      window.removeEventListener('edumvp_courses_updated', () => {
+        reloadSubjects()
+        reloadDirections()
+      })
+      window.removeEventListener('storage', handleStorage)
+    }
   }, [user.directions, user.access])
 
   const updateUserName = (username, field, value) => {
@@ -111,23 +132,6 @@ export default function UserRow({ user, onUpdate }) {
           />
         </td>
         <td className='py-2'>{user.email || user.username}</td>
-        <td className='py-2'>
-          {user.grade === null ? (
-            <span className='text-sm font-semibold text-amber-600'>Выпускник</span>
-          ) : (
-            <select
-              value={user.baseGrade || ''}
-              onChange={(e) => updateUserName(user.username, 'baseGrade', e.target.value ? parseInt(e.target.value) : null)}
-              className='border rounded px-2 py-1 text-sm w-full'
-            >
-              <option value=''>—</option>
-              <option value='8'>8</option>
-              <option value='9'>9</option>
-              <option value='10'>10</option>
-              <option value='11'>11</option>
-            </select>
-          )}
-        </td>
         <td>
           <select
             defaultValue={user.role}
@@ -190,12 +194,12 @@ export default function UserRow({ user, onUpdate }) {
       </tr>
       {isEditingDirections && (
         <tr className='border-t bg-gray-50'>
-          <td colSpan='8' className='py-4 px-2'>
+          <td colSpan='7' className='py-4 px-2'>
             <div className='space-y-3'>
               <div>
                 <p className='text-sm font-medium text-gray-700 mb-2'>Выберите предметы:</p>
                 <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2'>
-                  {AVAILABLE_DIRECTIONS.map(direction => (
+                  {directions.map(direction => (
                     <label
                       key={direction.id}
                       className='flex items-center gap-2 p-2 rounded border border-gray-300 hover:bg-gray-100 cursor-pointer'
@@ -232,17 +236,12 @@ export default function UserRow({ user, onUpdate }) {
       )}
       {isEditingAccess && (
         <tr className='border-t bg-blue-50'>
-          <td colSpan='8' className='py-4 px-2'>
+          <td colSpan='7' className='py-4 px-2'>
             <div className='space-y-3'>
               <div>
                 <p className='text-sm font-medium text-gray-700 mb-2'>Выберите доступные предметы:</p>
                 <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2'>
-                  {subjects.map(subject => {
-                    const subjectNames = subjects.reduce((acc, code) => {
-                      acc[code] = getSubjectName(code)
-                      return acc
-                    }, {})
-                    return (
+                  {subjects.map((subject) => (
                       <label
                         key={subject}
                         className='flex items-center gap-2 p-2 rounded border border-blue-300 hover:bg-blue-100 cursor-pointer'
@@ -253,10 +252,9 @@ export default function UserRow({ user, onUpdate }) {
                           onChange={() => toggleAccess(subject)}
                           className='w-4 h-4 text-blue-600'
                         />
-                        <span className='text-sm'>{subjectNames[subject]}</span>
+                      <span className='text-sm'>{getSubjectName(subject)}</span>
                       </label>
-                    )
-                  })}
+                  ))}
                 </div>
               </div>
               <div className='flex gap-2'>
@@ -279,7 +277,7 @@ export default function UserRow({ user, onUpdate }) {
       )}
       {showDeleteConfirm && (
         <tr className='border-t bg-red-50'>
-          <td colSpan='8' className='py-4 px-2'>
+          <td colSpan='7' className='py-4 px-2'>
             <div className='space-y-3'>
               <div className='text-sm text-gray-700'>
                 <p className='font-medium mb-2'>Вы уверены, что хотите удалить пользователя?</p>

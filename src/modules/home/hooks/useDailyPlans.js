@@ -2,7 +2,8 @@ import { useState, useEffect, useRef } from 'react'
 import { getCurrentUser, getUserFull } from '../../../utils/userStore'
 import { addCoins } from '../../../utils/gamificationStore'
 import { COIN_REWARDS } from '../../../constants/prices'
-import coursesData from '../../../data/courses.json'
+import { getAllSubjects } from '../../../constants/subjects'
+import { getCourse, getLessons } from '../../../utils/courseStore'
 
 /**
  * Хук для управления планами на день
@@ -145,7 +146,7 @@ export function useDailyPlans() {
 
     // Выбираем первый доступный предмет (можно улучшить логику выбора)
     const subject = availableSubjects[0]
-    const course = coursesData[subject]
+    const course = getCourse(subject)
 
     if (!course) return
 
@@ -155,7 +156,8 @@ export function useDailyPlans() {
     )
 
     let nextTopic = null
-    for (const lesson of course.lessons) {
+    const lessons = getLessons(subject)
+    for (const lesson of lessons) {
       const key = `${subject}_${lesson.id}`
       const lessonProgress = userProgress[key] || { watched: false, completed: false }
       

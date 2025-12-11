@@ -29,25 +29,19 @@ const ensureUserStructure = (user) => {
   const rawEmail = normalize(user.email) || normalize(user.username)
   const email = ensureEmail(rawEmail)
   
-  // Вычисляем текущий класс на основе даты создания
-  const createdAt = user.createdAt || new Date().toISOString()
-  const currentGrade = user.baseGrade 
-    ? calculateCurrentGrade(user.baseGrade, createdAt) 
-    : user.grade
-  
   return {
     ...user,
     username: normalize(user.username) || rawEmail || email,
     email,
     firstName: user.firstName ?? '',
     lastName: user.lastName ?? '',
+    birthdate: user.birthdate ?? '',
+    phone: user.phone ?? '',
     avatar: user.avatar ?? '',
-    baseGrade: user.baseGrade ?? user.grade ?? null,
-    grade: currentGrade,
     directions: user.directions ?? [],
     access: ensureAccess(user.access),
     password: user.password ?? '',
-    createdAt
+    createdAt: user.createdAt || new Date().toISOString()
   }
 }
 
@@ -65,36 +59,6 @@ const save = (key, value) => localStorage.setItem(key, JSON.stringify(value))
  * Вычислить текущий класс на основе даты создания аккаунта
  * Учебный год: 01.08 - 31.07
  */
-function calculateCurrentGrade(baseGrade, createdAt) {
-  if (!baseGrade || !createdAt) return baseGrade
-  
-  const createDate = new Date(createdAt)
-  const now = new Date()
-  
-  // Функция для определения учебного года по дате
-  const getSchoolYear = (date) => {
-    const year = date.getFullYear()
-    const month = date.getMonth() // 0-11, июль = 6
-    // Если дата в июле (месяц 6) или раньше, текущий учебный год начался в прошлом году
-    // Если август (месяц 7) или позже, учебный год начался в текущем году
-    return month <= 6 ? year - 1 : year
-  }
-  
-  // Определяем текущий учебный год
-  const currentSchoolYear = getSchoolYear(now)
-  
-  // Определяем учебный год создания аккаунта
-  const accountSchoolYear = getSchoolYear(createDate)
-  
-  // Вычисляем количество прошедших учебных лет
-  const yearsPassed = currentSchoolYear - accountSchoolYear
-  
-  const newGrade = baseGrade + yearsPassed
-  
-  // Если класс > 11, возвращаем null (выпускник)
-  return newGrade > 11 ? null : newGrade
-}
-
 export function initStore() {
   const existingUsers = load(LS_USERS, null)
   if (!existingUsers) {
@@ -107,21 +71,17 @@ export function initStore() {
         lastName: 'Администратор',
         role: 'admin',
         access: {
-          math: { enabled: true },
-          mathb: { enabled: true },
-          rus: { enabled: true },
-          phys: { enabled: true },
-          inf: { enabled: true },
-          bio: { enabled: true },
-          chem: { enabled: true },
-          geo: { enabled: true },
-          soc: { enabled: true },
-          hist: { enabled: true },
-          lit: { enabled: true },
-          en: { enabled: true },
-          de: { enabled: true },
-          fr: { enabled: true },
-          sp: { enabled: true },
+          pract_psychology: { enabled: true },
+          pedagogy_prof_psychology: { enabled: true },
+          speech_therapy: { enabled: true },
+          org_management: { enabled: true },
+          econ_management: { enabled: true },
+          hr_management: { enabled: true },
+          marketing_management: { enabled: true },
+          fitness_coach: { enabled: true },
+          sport: { enabled: true },
+          adaptive_sport: { enabled: true },
+          pedagogy_theory: { enabled: true },
         }
       })
     ])
@@ -135,17 +95,28 @@ export function initStore() {
 
 export const getUsers = () => load(LS_USERS, []).map(ensureUserStructure)
 export const setUsers = (users) => save(LS_USERS, users.map(ensureUserStructure))
-export const getCurrentUser = () => load(LS_CURRENT, null)
+export const getCurrentUser = () => {
+  const current = load(LS_CURRENT, null)
+  if (!current) return null
+  if (current.access) return current
+  const full = getUsers().find((u) => normalizeEmail(u.username) === normalizeEmail(current.username))
+  if (full) {
+    const merged = { ...current, access: full.access }
+    save(LS_CURRENT, merged)
+    return merged
+  }
+  return current
+}
 export const setCurrentUser = (user) => save(LS_CURRENT, user)
 export const logout = () => localStorage.removeItem(LS_CURRENT)
 
-export function register(email, password, firstName, lastName, grade, directions) {
+export function register(email, password, firstName, lastName, birthdate, phone) {
   const normalizedEmail = ensureEmail(email)
   if (!normalizedEmail) throw new Error('Укажите электронную почту')
   if (!normalize(email).includes('@')) throw new Error('Введите корректный адрес электронной почты')
   if (!normalize(password)) throw new Error('Введите пароль')
-  if (!grade || grade < 8 || grade > 11) throw new Error('Выберите класс (8-11)')
-  if (!directions || directions.length === 0) throw new Error('Выберите хотя бы один предмет')
+  if (!normalize(birthdate)) throw new Error('Укажите дату рождения')
+  if (!normalize(phone)) throw new Error('Укажите номер телефона')
   
   const users = getUsers()
   if (
@@ -163,9 +134,9 @@ export function register(email, password, firstName, lastName, grade, directions
     password,
     firstName: normalize(firstName),
     lastName: normalize(lastName),
-    baseGrade: grade,
-    grade,
-    directions,
+    birthdate: normalize(birthdate),
+    phone: normalize(phone),
+    directions: [],
     role: 'guest',
     access: {},
     createdAt: new Date().toISOString()
@@ -178,9 +149,11 @@ export function register(email, password, firstName, lastName, grade, directions
     email: user.email,
     firstName: user.firstName,
     lastName: user.lastName,
+    birthdate: user.birthdate,
+    phone: user.phone,
     avatar: user.avatar,
-    grade: user.grade,
-    directions: user.directions
+    directions: user.directions,
+    access: user.access
   })
   return user
 }
@@ -206,8 +179,8 @@ export function login(email, password) {
     firstName: user.firstName,
     lastName: user.lastName,
     avatar: user.avatar,
-    grade: user.grade,
-    directions: user.directions
+    directions: user.directions,
+    access: user.access
   })
   return user
 }
@@ -230,8 +203,8 @@ export function updateUserRole(username, role) {
         firstName: full.firstName,
         lastName: full.lastName,
         avatar: full.avatar,
-        grade: full.grade,
-        directions: full.directions
+        directions: full.directions,
+        access: full.access
       })
     }
   }
@@ -263,10 +236,66 @@ export function upsertUser(obj) {
       firstName: full.firstName,
       lastName: full.lastName,
       avatar: full.avatar,
-      grade: full.grade,
-      directions: full.directions
+      directions: full.directions,
+      access: full.access
     })
   }
+}
+
+/**
+ * Обновить email и/или пароль пользователя
+ * @param {string} username - текущий username (email)
+ * @param {{email?: string, password?: string, phone?: string}} data
+ */
+export function updateUserCredentials(username, data = {}) {
+  const normalizedUsername = normalizeEmail(username)
+  if (!normalizedUsername) throw new Error('Некорректный пользователь')
+
+  const users = getUsers()
+  const index = users.findIndex(
+    (user) => normalizeEmail(user.username) === normalizedUsername
+  )
+  if (index === -1) throw new Error('Пользователь не найден')
+
+  const newEmail = data.email ? ensureEmail(data.email) : null
+  if (newEmail) {
+    const exists = users.some(
+      (user, i) =>
+        i !== index &&
+        (normalizeEmail(user.email) === normalizeEmail(newEmail) ||
+          normalizeEmail(user.username) === normalizeEmail(newEmail))
+    )
+    if (exists) throw new Error('Аккаунт с такой почтой уже существует')
+  }
+
+  const updatedUser = {
+    ...users[index],
+    email: newEmail || users[index].email,
+    username: newEmail ? normalizeEmail(newEmail) : users[index].username,
+    password: data.password ? normalize(data.password) : users[index].password,
+    phone: data.phone ? normalize(data.phone) : users[index].phone,
+  }
+
+  users[index] = ensureUserStructure(updatedUser)
+  setUsers(users)
+
+  const current = getCurrentUser()
+  if (current && normalizeEmail(current.username) === normalizedUsername) {
+    const full = users[index]
+    setCurrentUser({
+      username: full.username,
+      role: full.role,
+      email: full.email,
+      firstName: full.firstName,
+      lastName: full.lastName,
+      phone: full.phone,
+      avatar: full.avatar,
+      directions: full.directions,
+      access: full.access
+    })
+  }
+
+  return users[index]
 }
 
 export function deleteUser(username) {
@@ -325,6 +354,7 @@ export function addNotification(username, notification) {
     id: Date.now(),
     text: notification.text,
     emoji: notification.emoji || '📢',
+    link: notification.link || null,
     unread: true,
     timestamp: new Date().toISOString()
   })
@@ -373,4 +403,15 @@ export function markAllNotificationsAsRead(username) {
   })
   
   save(LS_NOTIFICATIONS, notifications)
+}
+
+export function clearNotifications(username) {
+  const normalizedUsername = normalizeEmail(username)
+  if (!normalizedUsername) return
+
+  const notifications = load(LS_NOTIFICATIONS, {})
+  if (notifications[normalizedUsername]) {
+    notifications[normalizedUsername] = []
+    save(LS_NOTIFICATIONS, notifications)
+  }
 }

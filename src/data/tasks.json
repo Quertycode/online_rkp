@@ -1,1 +1,482 @@
-[]
+[
+  {
+    "id": 1001,
+    "subject": "pract_psychology",
+    "lessonId": 1,
+    "type": "text",
+    "question": "Опишите три техники активного слушания, которые вы применили с клиентом.",
+    "answer": ["Перефразирование", "Уточнение", "Отражение чувств"]
+  },
+  {
+    "id": 1002,
+    "subject": "pract_psychology",
+    "lessonId": 2,
+    "type": "text",
+    "question": "Составьте краткий опросник для первичной диагностики тревожности.",
+    "answer": ["5-7 вопросов", "Шкала частоты", "Открытый вопрос"]
+  },
+  {
+    "id": 1003,
+    "subject": "pract_psychology",
+    "lessonId": 3,
+    "type": "text",
+    "question": "Сформулируйте SMART-цель для клиента, желающего снизить уровень стресса.",
+    "answer": ["SMART", "конкретно", "измеримо"]
+  },
+  {
+    "id": 1004,
+    "subject": "pract_psychology",
+    "lessonId": 4,
+    "type": "text",
+    "question": "Заполните ABC-модель для ситуации: клиент боится публичных выступлений.",
+    "answer": ["A: ситуация", "B: мысли", "C: эмоции/действия"]
+  },
+  {
+    "id": 1005,
+    "subject": "pract_psychology",
+    "lessonId": 5,
+    "type": "text",
+    "question": "Ведите дневник эмоций за один день и выделите три триггера.",
+    "answer": ["3 триггера", "описание эмоций", "интенсивность"]
+  },
+  {
+    "id": 1006,
+    "subject": "pract_psychology",
+    "lessonId": 6,
+    "type": "text",
+    "question": "Пройдите опросник выгорания и опишите два шага самопомощи.",
+    "answer": ["результат опросника", "2 шага самопомощи"]
+  },
+  {
+    "id": 1007,
+    "subject": "pract_psychology",
+    "lessonId": 7,
+    "type": "text",
+    "question": "Запишите скрипт дыхательной техники для клиента.",
+    "answer": ["4-7-8", "инструкция шагами"]
+  },
+  {
+    "id": 1008,
+    "subject": "pract_psychology",
+    "lessonId": 8,
+    "type": "text",
+    "question": "Сформулируйте три ассертивных ответа для отказа от дополнительной работы.",
+    "answer": ["я-высказывания", "коротко", "без оправданий"]
+  },
+  {
+    "id": 1009,
+    "subject": "pract_psychology",
+    "lessonId": 9,
+    "type": "text",
+    "question": "Опишите алгоритм первой помощи (PFA) при кризисе.",
+    "answer": ["контакт", "стабилизация", "поддержка"]
+  },
+  {
+    "id": 1010,
+    "subject": "pract_psychology",
+    "lessonId": 10,
+    "type": "text",
+    "question": "Составьте супервизионный запрос по текущему кейсу.",
+    "answer": ["клиент", "запрос", "трудности", "ожидание"]
+  },
+  {
+    "id": 1011,
+    "subject": "pract_psychology",
+    "lessonId": 1,
+    "type": "text",
+    "question": "Сделайте конспект сессии: цель, техники, результат.",
+    "answer": ["цель", "техники", "результат"]
+  },
+  {
+    "id": 1012,
+    "subject": "pract_psychology",
+    "lessonId": 1,
+    "type": "text",
+    "question": "Составьте чек-лист для раппорта из 5 пунктов.",
+    "answer": ["5 пунктов", "контакт", "эмпатия"]
+  },
+  {
+    "id": 1013,
+    "subject": "pract_psychology",
+    "lessonId": 1,
+    "type": "text",
+    "question": "Опишите 3 ошибки начинающего психолога на первой встрече.",
+    "answer": ["оценка", "советы", "спешка"]
+  },
+  {
+    "id": 1014,
+    "subject": "pract_psychology",
+    "lessonId": 1,
+    "type": "text",
+    "question": "Подготовьте план первой сессии с новым клиентом.",
+    "answer": ["контракт", "цель", "границы"]
+  },
+  {
+    "id": 1015,
+    "subject": "pract_psychology",
+    "lessonId": 2,
+    "type": "text",
+    "question": "Сформируйте 5 вопросов для уточнения запроса клиента.",
+    "answer": ["что", "как давно", "как проявляется"]
+  },
+  {
+    "id": 1016,
+    "subject": "pract_psychology",
+    "lessonId": 2,
+    "type": "text",
+    "question": "Опишите маркеры высокой тревожности в речи клиента.",
+    "answer": ["темп", "повторы", "катастрофизация"]
+  },
+  {
+    "id": 1017,
+    "subject": "pract_psychology",
+    "lessonId": 2,
+    "type": "text",
+    "question": "Сделайте мини-анамнез: семья, работа, здоровье (по 2 вопроса).",
+    "answer": ["семья", "работа", "здоровье"]
+  },
+  {
+    "id": 1018,
+    "subject": "pract_psychology",
+    "lessonId": 2,
+    "type": "text",
+    "question": "Составьте шкалу саморегистрации тревоги (0-10) с примерами.",
+    "answer": ["0-10", "примеры", "описания"]
+  },
+  {
+    "id": 1019,
+    "subject": "pract_psychology",
+    "lessonId": 3,
+    "type": "text",
+    "question": "Переформулируйте цель клиента в SMART-формат.",
+    "answer": ["SMART", "срок", "метрика"]
+  },
+  {
+    "id": 1020,
+    "subject": "pract_psychology",
+    "lessonId": 3,
+    "type": "text",
+    "question": "Пропишите критерии успеха для выбранной цели.",
+    "answer": ["метрики", "срок", "условия"]
+  },
+  {
+    "id": 1021,
+    "subject": "pract_psychology",
+    "lessonId": 3,
+    "type": "text",
+    "question": "Составьте 3 вопроса для проверки мотивации клиента.",
+    "answer": ["зачем", "что если", "что мешает"]
+  },
+  {
+    "id": 1022,
+    "subject": "pract_psychology",
+    "lessonId": 3,
+    "type": "text",
+    "question": "Опишите границы ответственности психолога в контракте.",
+    "answer": ["конфиденциальность", "роль", "границы"]
+  },
+  {
+    "id": 1023,
+    "subject": "pract_psychology",
+    "lessonId": 4,
+    "type": "text",
+    "question": "Заполните таблицу «мысль-эмоция-действие» для кейса клиента.",
+    "answer": ["мысль", "эмоция", "действие"]
+  },
+  {
+    "id": 1024,
+    "subject": "pract_psychology",
+    "lessonId": 4,
+    "type": "text",
+    "question": "Назовите 5 типичных когнитивных искажений и примеры.",
+    "answer": ["обобщение", "чтение мыслей", "катастрофизация"]
+  },
+  {
+    "id": 1025,
+    "subject": "pract_psychology",
+    "lessonId": 4,
+    "type": "text",
+    "question": "Сделайте реструктуризацию мысли клиента: исходная vs рациональная.",
+    "answer": ["исходная", "рациональная"]
+  },
+  {
+    "id": 1026,
+    "subject": "pract_psychology",
+    "lessonId": 4,
+    "type": "text",
+    "question": "Составьте домашнее задание на отслеживание автоматических мыслей.",
+    "answer": ["дневник", "3-5 записей"]
+  },
+  {
+    "id": 1027,
+    "subject": "pract_psychology",
+    "lessonId": 5,
+    "type": "text",
+    "question": "Опишите технику «эмоциональная шкала» на 5 уровней.",
+    "answer": ["5 уровней", "описания"]
+  },
+  {
+    "id": 1028,
+    "subject": "pract_psychology",
+    "lessonId": 5,
+    "type": "text",
+    "question": "Сделайте план эмоциональной регуляции на неделю (2 шага в день).",
+    "answer": ["7 дней", "2 шага"]
+  },
+  {
+    "id": 1029,
+    "subject": "pract_psychology",
+    "lessonId": 5,
+    "type": "text",
+    "question": "Опишите 3 способа валидировать эмоции клиента.",
+    "answer": ["принятие", "нормализация", "поддержка"]
+  },
+  {
+    "id": 1030,
+    "subject": "pract_psychology",
+    "lessonId": 5,
+    "type": "text",
+    "question": "Составьте шаблон «пауза-дыхание-назови эмоцию» для клиента.",
+    "answer": ["пауза", "дыхание", "назови"]
+  },
+  {
+    "id": 1031,
+    "subject": "pract_psychology",
+    "lessonId": 6,
+    "type": "text",
+    "question": "Опишите 3 ранних признака выгорания у клиента.",
+    "answer": ["усталость", "цинизм", "снижение эффективности"]
+  },
+  {
+    "id": 1032,
+    "subject": "pract_psychology",
+    "lessonId": 6,
+    "type": "text",
+    "question": "Составьте план восстановления: сон, нагрузка, поддержка (по 1 пункту).",
+    "answer": ["сон", "нагрузка", "поддержка"]
+  },
+  {
+    "id": 1033,
+    "subject": "pract_psychology",
+    "lessonId": 6,
+    "type": "text",
+    "question": "Сделайте шкалу усталости 1-5 и предложите 3 шага при уровне 4.",
+    "answer": ["уровни", "3 шага"]
+  },
+  {
+    "id": 1034,
+    "subject": "pract_psychology",
+    "lessonId": 6,
+    "type": "text",
+    "question": "Опишите границы рабочего времени для клиента (3 правила).",
+    "answer": ["3 правила", "границы"]
+  },
+  {
+    "id": 1035,
+    "subject": "pract_psychology",
+    "lessonId": 7,
+    "type": "text",
+    "question": "Составьте сценарий дыхания 4-7-8 для аудиозаписи.",
+    "answer": ["4-7-8", "шаги"]
+  },
+  {
+    "id": 1036,
+    "subject": "pract_psychology",
+    "lessonId": 7,
+    "type": "text",
+    "question": "Опишите 3 якоря безопасности для клиента с тревогой.",
+    "answer": ["опора", "дыхание", "фокус"]
+  },
+  {
+    "id": 1037,
+    "subject": "pract_psychology",
+    "lessonId": 7,
+    "type": "text",
+    "question": "Сделайте чек-лист экспозиции: шаги и длительность.",
+    "answer": ["шаги", "время", "критерии"]
+  },
+  {
+    "id": 1038,
+    "subject": "pract_psychology",
+    "lessonId": 7,
+    "type": "text",
+    "question": "Подготовьте 5 фраз для самоподдержки при тревоге.",
+    "answer": ["5 фраз", "поддержка"]
+  },
+  {
+    "id": 1039,
+    "subject": "pract_psychology",
+    "lessonId": 8,
+    "type": "text",
+    "question": "Напишите 3 ассертивных фразы для отказа коллегам.",
+    "answer": ["я-высказывание", "границы", "коротко"]
+  },
+  {
+    "id": 1040,
+    "subject": "pract_psychology",
+    "lessonId": 8,
+    "type": "text",
+    "question": "Опишите признаки нарушения границ в общении (5 примеров).",
+    "answer": ["навязчивость", "контроль", "оценка"]
+  },
+  {
+    "id": 1041,
+    "subject": "pract_psychology",
+    "lessonId": 8,
+    "type": "text",
+    "question": "Составьте план трудного разговора: цель, позиция, фразы.",
+    "answer": ["цель", "позиция", "фразы"]
+  },
+  {
+    "id": 1042,
+    "subject": "pract_psychology",
+    "lessonId": 8,
+    "type": "text",
+    "question": "Опишите 3 стратегии работы с сопротивлением клиента.",
+    "answer": ["валидация", "выбор", "пауза"]
+  },
+  {
+    "id": 1043,
+    "subject": "pract_psychology",
+    "lessonId": 9,
+    "type": "text",
+    "question": "Составьте план PFA на 5 шагов для кризисного звонка.",
+    "answer": ["контакт", "оценка", "поддержка", "стабилизация", "план"]
+  },
+  {
+    "id": 1044,
+    "subject": "pract_psychology",
+    "lessonId": 9,
+    "type": "text",
+    "question": "Подготовьте список безопасных вопросов для кризисной беседы (5).",
+    "answer": ["безопасность", "поддержка", "ресурсы"]
+  },
+  {
+    "id": 1045,
+    "subject": "pract_psychology",
+    "lessonId": 9,
+    "type": "text",
+    "question": "Опишите алгоритм передачи клиента в профильную службу.",
+    "answer": ["контакт", "информирование", "передача"]
+  },
+  {
+    "id": 1046,
+    "subject": "pract_psychology",
+    "lessonId": 9,
+    "type": "text",
+    "question": "Сделайте чек-лист факторов риска суицидальности (8 пунктов).",
+    "answer": ["8 пунктов", "риск", "оценка"]
+  },
+  {
+    "id": 1047,
+    "subject": "pract_psychology",
+    "lessonId": 10,
+    "type": "text",
+    "question": "Опишите формат записи для супервизии (структура из 5 блоков).",
+    "answer": ["клиент", "запрос", "ход", "трудности", "вопросы"]
+  },
+  {
+    "id": 1048,
+    "subject": "pract_psychology",
+    "lessonId": 10,
+    "type": "text",
+    "question": "Сформулируйте 3 цели работы с супервизором по этому кейсу.",
+    "answer": ["цели", "кейс", "ожидание"]
+  },
+  {
+    "id": 1049,
+    "subject": "pract_psychology",
+    "lessonId": 10,
+    "type": "text",
+    "question": "Сделайте план профессионального развития на 3 месяца (3 шага).",
+    "answer": ["3 шага", "сроки"]
+  },
+  {
+    "id": 1050,
+    "subject": "pract_psychology",
+    "lessonId": 10,
+    "type": "text",
+    "question": "Опишите критерии, по которым завершите работу с клиентом.",
+    "answer": ["критерии", "результаты", "границы"]
+  },
+  {
+    "id": 2001,
+    "subject": "org_management",
+    "lessonId": 1,
+    "type": "text",
+    "question": "Нарисуйте оргструктуру небольшой компании (до 50 человек).",
+    "answer": ["CEO", "функции", "подчинённость"]
+  },
+  {
+    "id": 2002,
+    "subject": "org_management",
+    "lessonId": 2,
+    "type": "text",
+    "question": "Опишите 3 KPI для отдела продаж и их формулы.",
+    "answer": ["выручка", "конверсия", "LTV/ CAC"]
+  },
+  {
+    "id": 2003,
+    "subject": "org_management",
+    "lessonId": 3,
+    "type": "text",
+    "question": "Сравните, когда выбирать Agile, а когда Waterfall для проекта.",
+    "answer": ["Agile", "Waterfall", "критерии выбора"]
+  },
+  {
+    "id": 2004,
+    "subject": "org_management",
+    "lessonId": 4,
+    "type": "text",
+    "question": "Составьте реестр рисков для запуска нового продукта (3-5 рисков).",
+    "answer": ["описание", "вероятность", "влияние", "план реагирования"]
+  },
+  {
+    "id": 2005,
+    "subject": "org_management",
+    "lessonId": 5,
+    "type": "text",
+    "question": "Сделайте краткий коммуникационный план для проекта на 3 месяца.",
+    "answer": ["каналы", "частота", "ответственные"]
+  },
+  {
+    "id": 2006,
+    "subject": "org_management",
+    "lessonId": 6,
+    "type": "text",
+    "question": "Рассчитайте юнит-экономику: CAC=3000, LTV=12000, маржа=40%.",
+    "answer": ["LTV/CAC=4", "маржа 40%"]
+  },
+  {
+    "id": 2007,
+    "subject": "org_management",
+    "lessonId": 7,
+    "type": "text",
+    "question": "Нарисуйте карту потока создания ценности (VSM) для процесса найма.",
+    "answer": ["этапы", "время", "узкие места"]
+  },
+  {
+    "id": 2008,
+    "subject": "org_management",
+    "lessonId": 8,
+    "type": "text",
+    "question": "Опишите план изменений по модели ADKAR для внедрения CRM.",
+    "answer": ["Awareness", "Desire", "Knowledge", "Ability", "Reinforcement"]
+  },
+  {
+    "id": 2009,
+    "subject": "org_management",
+    "lessonId": 9,
+    "type": "text",
+    "question": "Составьте план 1:1 встреч для команды из 5 человек на месяц.",
+    "answer": ["частота", "повестка", "обратная связь"]
+  },
+  {
+    "id": 2010,
+    "subject": "org_management",
+    "lessonId": 10,
+    "type": "text",
+    "question": "Постройте простую CJM для нового клиента B2B-сегмента.",
+    "answer": ["этапы", "pain points", "метрики"]
+  }
+]

@@ -6,8 +6,9 @@ import NotificationsDropdown from './NotificationsDropdown'
  * @param {number} unreadCount - Количество непрочитанных уведомлений
  * @param {Array} notifications - Массив уведомлений
  * @param {function} onMarkAsRead - Функция отметки как прочитанного
+ * @param {function} onClearAll - Функция очистки уведомлений
  */
-export default function NotificationButton({ unreadCount = 0, notifications = [], onMarkAsRead }) {
+export default function NotificationButton({ unreadCount = 0, notifications = [], onMarkAsRead, onClearAll }) {
   const [notificationsOpen, setNotificationsOpen] = useState(false)
 
   return (
@@ -32,6 +33,7 @@ export default function NotificationButton({ unreadCount = 0, notifications = []
         notifications={notifications}
         unreadCount={unreadCount}
         onMarkAsRead={onMarkAsRead}
+        onClearAll={onClearAll}
       />
     </div>
   )

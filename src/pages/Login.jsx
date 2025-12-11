@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Card from '../components/Card'
 import { getCurrentUser, initStore, login, register } from '../utils/userStore'
-import { createTestNotifications } from '../utils/addTestNotifications'
-import { AVAILABLE_DIRECTIONS } from '../utils/userHelpers'
 
 export default function Login() {
   const [isReg, setIsReg] = useState(false)
@@ -11,8 +9,8 @@ export default function Login() {
   const [password, setPassword] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
-  const [grade, setGrade] = useState(null)
-  const [selectedDirections, setSelectedDirections] = useState([])
+  const [birthdate, setBirthdate] = useState('')
+  const [phone, setPhone] = useState('')
   const [error, setError] = useState('')
   const navigate = useNavigate()
 
@@ -37,15 +35,12 @@ export default function Login() {
           password.trim(),
           firstName.trim(),
           lastName.trim(),
-          grade,
-          selectedDirections
+          birthdate.trim(),
+          phone.trim()
         )
       } else {
         login(normalizedEmail, password.trim())
       }
-      
-      // Добавляем тестовые уведомления при входе
-      createTestNotifications(normalizedEmail)
       
       navigate('/')
     } catch (err) {
@@ -59,17 +54,9 @@ export default function Login() {
     if (isReg) {
       setFirstName('')
       setLastName('')
-      setGrade(null)
-      setSelectedDirections([])
+      setBirthdate('')
+      setPhone('')
     }
-  }
-
-  const toggleDirection = (directionId) => {
-    setSelectedDirections((prev) =>
-      prev.includes(directionId)
-        ? prev.filter((id) => id !== directionId)
-        : [...prev, directionId]
-    )
   }
 
   return (
@@ -99,6 +86,28 @@ export default function Login() {
                   required
                 />
               </div>
+              <div>
+                <label className='block text-sm text-gray-700 mb-1'>Дата рождения</label>
+                <input
+                  type='date'
+                  placeholder='Дата рождения'
+                  value={birthdate}
+                  onChange={(event) => setBirthdate(event.target.value)}
+                  className='w-full border border-cyan-300 rounded-lg px-3 py-2 text-sm'
+                  required
+                />
+              </div>
+              <div>
+                <label className='block text-sm text-gray-700 mb-1'>Номер телефона</label>
+                <input
+                  type='tel'
+                  placeholder='+7 (___) ___-__-__'
+                  value={phone}
+                  onChange={(event) => setPhone(event.target.value)}
+                  className='w-full border border-cyan-300 rounded-lg px-3 py-2 text-sm'
+                  required
+                />
+              </div>
             </>
           )}
           <input
@@ -117,54 +126,6 @@ export default function Login() {
             className='w-full border border-cyan-300 rounded-lg px-3 py-2 text-sm'
             required
           />
-          {isReg && (
-            <>
-              <div>
-                <label className='block text-sm font-medium text-gray-700 mb-2'>
-                  Класс <span className='text-red-500'>*</span>
-                </label>
-                <div className='grid grid-cols-4 gap-2'>
-                  {[8, 9, 10, 11].map((gradeNum) => (
-                    <button
-                      key={gradeNum}
-                      type='button'
-                      onClick={() => setGrade(gradeNum)}
-                      className={`px-4 py-3 rounded-lg border-2 font-semibold transition ${
-                        grade === gradeNum
-                          ? 'border-cyan-500 bg-cyan-50 text-cyan-700'
-                          : 'border-gray-300 hover:border-cyan-300 text-gray-700'
-                      }`}
-                    >
-                      {gradeNum} класс
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <label className='block text-sm font-medium text-gray-700 mb-2'>
-                  Предметы <span className='text-red-500'>*</span>
-                  <span className='text-xs text-gray-500 ml-2'>(можно выбрать несколько)</span>
-                </label>
-                <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
-                  {AVAILABLE_DIRECTIONS.map((direction) => (
-                    <button
-                      key={direction.id}
-                      type='button'
-                      onClick={() => toggleDirection(direction.id)}
-                      className={`px-3 py-2.5 rounded-lg border-2 text-sm font-medium transition text-left ${
-                        selectedDirections.includes(direction.id)
-                          ? 'border-cyan-500 bg-cyan-50 text-cyan-700'
-                          : 'border-gray-300 hover:border-cyan-300 text-gray-700'
-                      }`}
-                    >
-                      {direction.name}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </>
-          )}
           {error && <div className='text-rose-600 text-sm bg-rose-50 px-3 py-2 rounded-lg'>{error}</div>}
           <button
             type='submit'

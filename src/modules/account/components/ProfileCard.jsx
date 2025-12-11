@@ -1,199 +1,79 @@
-import { useState } from 'react'
-import Card from '../../../components/Card'
-import { upsertUser } from '../../../utils/userStore'
-import { AVAILABLE_DIRECTIONS, getUserDirectionsWithSubjects } from '../../../utils/userHelpers'
+import useProfileSettings from '../hooks/useProfileSettings'
+import ProfileHero from './ProfileHero'
+import ProfileInfo from './ProfileInfo'
+import SecuritySettings from './SecuritySettings'
+import AccountActions from './AccountActions'
 
 /**
- * Карточка профиля пользователя
+ * Карточка профиля пользователя (модульная композиция)
  */
 export default function ProfileCard({ user, fullUser, onLogout }) {
-  const email = fullUser?.email || user?.email || '—'
-  const firstName = fullUser?.firstName || user?.firstName || ''
-  const lastName = fullUser?.lastName || user?.lastName || ''
-  const displayName = [firstName, lastName].filter(Boolean).join(' ').trim() || '—'
-  const currentAvatar = fullUser?.avatar || user?.avatar || ''
-
-  const [avatar, setAvatar] = useState(currentAvatar)
-  const [avatarPreview, setAvatarPreview] = useState(currentAvatar)
-  const [isEditingDirections, setIsEditingDirections] = useState(false)
-  const [selectedDirections, setSelectedDirections] = useState(user?.directions || [])
-
-  const handleAvatarUpload = (e) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-    
-    if (!file.type.startsWith('image/')) {
-      alert('Пожалуйста, выберите изображение')
-      return
-    }
-
-    const reader = new FileReader()
-    reader.onloadend = () => {
-      const base64String = reader.result
-      setAvatar(base64String)
-      setAvatarPreview(base64String)
-      
-      if (fullUser) {
-        const updatedUser = { ...fullUser, avatar: base64String }
-        upsertUser(updatedUser)
-        window.location.reload()
-      }
-    }
-    reader.readAsDataURL(file)
-  }
-
-  const handleAvatarRemove = () => {
-    setAvatar('')
-    setAvatarPreview('')
-    if (fullUser) {
-      const updatedUser = { ...fullUser, avatar: '' }
-      upsertUser(updatedUser)
-      window.location.reload()
-    }
-  }
-
-  const handleDirectionsSave = () => {
-    if (selectedDirections.length === 0) {
-      alert('Выберите хотя бы один предмет')
-      return
-    }
-    
-    if (fullUser) {
-      const updatedUser = { ...fullUser, directions: selectedDirections }
-      upsertUser(updatedUser)
-      window.location.reload()
-    }
-    setIsEditingDirections(false)
-  }
-
-  const toggleDirection = (directionId) => {
-    setSelectedDirections(prev =>
-      prev.includes(directionId)
-        ? prev.filter(id => id !== directionId)
-        : [...prev, directionId]
-    )
-  }
-
-  const getAvatarInitials = (firstName, lastName) => {
-    const first = firstName?.charAt(0)?.toUpperCase() || ''
-    const last = lastName?.charAt(0)?.toUpperCase() || ''
-    return first + last || '?'
-  }
-
-  const userDirections = getUserDirectionsWithSubjects(user?.directions || [])
+  const settings = useProfileSettings(user, fullUser)
 
   return (
-    <Card title='Профиль'>
-      <div className='flex items-start gap-6 mb-4 flex-col sm:flex-row'>
-        <div className='flex flex-col items-center gap-2'>
-          {avatarPreview ? (
-            <img src={avatarPreview} alt='Avatar' className='w-24 h-24 rounded-full object-cover border-2 border-cyan-500' />
+    <div className='space-y-6'>
+      {/* Сообщения */}
+      {settings.formMessage && (
+        <div
+          className={`rounded-xl px-5 py-4 text-sm font-semibold animate-fade flex items-center gap-3 ${
+            settings.formMessage.type === 'success'
+              ? 'bg-emerald-50 text-emerald-700 border-2 border-emerald-200'
+              : 'bg-rose-50 text-rose-700 border-2 border-rose-200'
+          }`}
+        >
+          {settings.formMessage.type === 'success' ? (
+            <svg className='w-5 h-5 flex-shrink-0' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+              <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' />
+            </svg>
           ) : (
-            <div className='w-24 h-24 rounded-full bg-cyan-500 text-white flex items-center justify-center text-2xl font-semibold'>
-              {getAvatarInitials(firstName, lastName)}
-            </div>
+            <svg className='w-5 h-5 flex-shrink-0' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+              <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z' />
+            </svg>
           )}
-          <div className='flex gap-2'>
-            <label className='cursor-pointer px-3 py-1.5 text-sm bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 transition'>
-              Загрузить
-              <input
-                type='file'
-                accept='image/*'
-                onChange={handleAvatarUpload}
-                className='hidden'
-              />
-            </label>
-            {avatarPreview && (
-              <button
-                onClick={handleAvatarRemove}
-                className='px-3 py-1.5 text-sm bg-gray-400 text-white rounded-lg hover:bg-gray-500 transition'
-              >
-                Удалить
-              </button>
-            )}
-          </div>
+          {settings.formMessage.text}
         </div>
-        <div className='text-gray-700 space-y-1'>
-          <div>
-            Имя: <b>{displayName}</b>
-          </div>
-          <div>
-            Электронная почта: <b>{email}</b>
-          </div>
-          {(fullUser?.grade || fullUser?.grade === null) && (
-            <div>
-              Класс: <b>{fullUser.grade === null ? 'Выпускник' : fullUser.grade}</b>
-            </div>
-          )}
-          <div>
-            Роль: <b>{user?.role || 'guest'}</b>
-          </div>
-        </div>
-      </div>
-      
-      <div className='mb-4'>
-        <div className='flex items-center justify-between mb-2'>
-          <h3 className='font-semibold text-gray-700'>Предметы</h3>
-          <button
-            onClick={() => setIsEditingDirections(!isEditingDirections)}
-            className='text-sm text-cyan-600 hover:text-cyan-700'
-          >
-            {isEditingDirections ? 'Отмена' : 'Изменить'}
-          </button>
-        </div>
-        
-        {isEditingDirections ? (
-          <div className='space-y-3'>
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
-              {AVAILABLE_DIRECTIONS.map((direction) => (
-                <button
-                  key={direction.id}
-                  type='button'
-                  onClick={() => toggleDirection(direction.id)}
-                  className={`px-3 py-2 rounded-lg border-2 text-sm font-medium transition text-left ${
-                    selectedDirections.includes(direction.id)
-                      ? 'border-cyan-500 bg-cyan-50 text-cyan-700'
-                      : 'border-gray-300 hover:border-cyan-300 text-gray-700'
-                  }`}
-                >
-                  {direction.name}
-                </button>
-              ))}
-            </div>
-            <button
-              onClick={handleDirectionsSave}
-              className='px-4 py-2 bg-cyan-600 text-white rounded-xl hover:bg-cyan-700 transition'
-            >
-              Сохранить
-            </button>
-          </div>
-        ) : (
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
-            {userDirections.length > 0 ? (
-              userDirections.map((dir) => (
-                <div
-                  key={dir.id}
-                  className='px-3 py-2 bg-cyan-50 border border-cyan-200 rounded-lg text-sm font-medium'
-                >
-                  {dir.name}
-                </div>
-              ))
-            ) : (
-              <div className='text-gray-500 text-sm'>Предметы не выбраны</div>
-            )}
-          </div>
-        )}
+      )}
+
+      {/* Хедер профиля */}
+      <ProfileHero
+        avatarPreview={settings.avatarPreview}
+        displayName={settings.displayName}
+        email={settings.email}
+        username={settings.username}
+        role={settings.role}
+        getAvatarInitials={settings.getAvatarInitials}
+        handleAvatarUpload={settings.handleAvatarUpload}
+        handleAvatarRemove={settings.handleAvatarRemove}
+      />
+
+      {/* Сетка с секциями */}
+      <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
+        {/* Основная информация */}
+        <ProfileInfo
+          email={settings.email}
+          isEditingEmail={settings.isEditingEmail}
+          newEmail={settings.newEmail}
+          setNewEmail={settings.setNewEmail}
+          setIsEditingEmail={settings.setIsEditingEmail}
+          handleEmailSave={settings.handleEmailSave}
+          setFormMessage={settings.showMessage}
+        />
+
+        {/* Безопасность */}
+        <SecuritySettings
+          isEditingPassword={settings.isEditingPassword}
+          newPassword={settings.newPassword}
+          confirmPassword={settings.confirmPassword}
+          setNewPassword={settings.setNewPassword}
+          setConfirmPassword={settings.setConfirmPassword}
+          setIsEditingPassword={settings.setIsEditingPassword}
+          handlePasswordSave={settings.handlePasswordSave}
+          setFormMessage={settings.showMessage}
+        />
       </div>
 
-      {user && (
-        <button
-          onClick={onLogout}
-          className='px-4 py-2 bg-red-600 text-white rounded-xl hover:bg-red-700 transition'
-        >
-          Выйти из аккаунта
-        </button>
-      )}
-    </Card>
+      {/* Действия с аккаунтом */}
+      <AccountActions onLogout={onLogout} />
+    </div>
   )
 }
-

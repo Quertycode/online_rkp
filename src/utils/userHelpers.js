@@ -21,29 +21,55 @@ export function getGreetingName(user, fullUser) {
 /**
  * Маппинг направлений (directions) в предметы (subjects)
  */
+import { getCourses } from './courseStore'
+
 export const AVAILABLE_DIRECTIONS = [
-  { id: 'math-profile', name: 'Математика (профильная)', examType: 'EGE', subjectKey: 'math' },
-  { id: 'math-base', name: 'Математика (базовая)', examType: 'EGE', subjectKey: 'mathb' },
-  { id: 'rus', name: 'Русский язык', examType: 'EGE', subjectKey: 'rus' },
-  { id: 'phys', name: 'Физика', examType: 'EGE', subjectKey: 'phys' },
-  { id: 'inf', name: 'Информатика', examType: 'EGE', subjectKey: 'inf' },
-  { id: 'bio', name: 'Биология', examType: 'EGE', subjectKey: 'bio' },
-  { id: 'chem', name: 'Химия', examType: 'EGE', subjectKey: 'chem' },
-  { id: 'geo', name: 'География', examType: 'EGE', subjectKey: 'geo' },
-  { id: 'soc', name: 'Обществознание', examType: 'EGE', subjectKey: 'soc' },
-  { id: 'hist', name: 'История', examType: 'EGE', subjectKey: 'hist' },
-  { id: 'lit', name: 'Литература', examType: 'EGE', subjectKey: 'lit' },
-  { id: 'en', name: 'Английский язык', examType: 'EGE', subjectKey: 'en' },
-  { id: 'de', name: 'Немецкий язык', examType: 'EGE', subjectKey: 'de' },
-  { id: 'fr', name: 'Французский язык', examType: 'EGE', subjectKey: 'fr' },
-  { id: 'sp', name: 'Испанский язык', examType: 'EGE', subjectKey: 'sp' },
+  { id: 'pract-psychology', name: 'Практическая психология', examType: 'GENERAL', subjectKey: 'pract_psychology' },
+  { id: 'pedagogy-prof-psychology', name: 'Педагогика и психология в профессиональной деятельности', examType: 'GENERAL', subjectKey: 'pedagogy_prof_psychology' },
+  { id: 'speech-therapy', name: 'Дефектологическое образование: учитель-логопед', examType: 'GENERAL', subjectKey: 'speech_therapy' },
+  { id: 'org-management', name: 'Менеджмент организации', examType: 'GENERAL', subjectKey: 'org_management' },
+  { id: 'econ-management', name: 'Экономика и менеджмент', examType: 'GENERAL', subjectKey: 'econ_management' },
+  { id: 'hr-management', name: 'Управление персоналом (кадровый менеджмент)', examType: 'GENERAL', subjectKey: 'hr_management' },
+  { id: 'marketing-management', name: 'Менеджмент и маркетинг', examType: 'GENERAL', subjectKey: 'marketing_management' },
+  { id: 'fitness-coach', name: 'Тренер по фитнесу', examType: 'GENERAL', subjectKey: 'fitness_coach' },
+  { id: 'sport', name: 'Физическая культура и спорт', examType: 'GENERAL', subjectKey: 'sport' },
+  { id: 'adaptive-sport', name: 'Адаптивная физическая культура', examType: 'GENERAL', subjectKey: 'adaptive_sport' },
+  { id: 'pedagogy-theory', name: 'Педагогическое образование. Теория и методика обучения и воспитания', examType: 'GENERAL', subjectKey: 'pedagogy_theory' },
 ]
+
+const getDynamicDirections = () => {
+  try {
+    const courses = getCourses()
+    const baseSubjectKeys = new Set(AVAILABLE_DIRECTIONS.map((d) => d.subjectKey))
+    return Object.entries(courses)
+      .filter(([code]) => !baseSubjectKeys.has(code))
+      .map(([code, course]) => ({
+        id: code,
+        name: course.title || code,
+        examType: 'GENERAL',
+        subjectKey: code
+      }))
+  } catch {
+    return []
+  }
+}
+
+export const getDirectionsList = () => {
+  const dynamic = getDynamicDirections()
+  const all = [...AVAILABLE_DIRECTIONS]
+  dynamic.forEach((d) => {
+    if (!all.find((item) => item.id === d.id)) {
+      all.push(d)
+    }
+  })
+  return all
+}
 
 /**
  * Получить subjectKey по directionId
  */
 export function getSubjectKeyByDirectionId(directionId) {
-  const direction = AVAILABLE_DIRECTIONS.find(d => d.id === directionId)
+  const direction = getDirectionsList().find((d) => d.id === directionId)
   return direction?.subjectKey || null
 }
 
@@ -51,7 +77,7 @@ export function getSubjectKeyByDirectionId(directionId) {
  * Получить direction по ID
  */
 export function getDirectionById(directionId) {
-  return AVAILABLE_DIRECTIONS.find(d => d.id === directionId) || null
+  return getDirectionsList().find((d) => d.id === directionId) || null
 }
 
 /**
@@ -59,13 +85,19 @@ export function getDirectionById(directionId) {
  */
 export function getUserDirectionsWithSubjects(userDirections = []) {
   return userDirections
-    .map(id => {
+    .map((id) => {
       const direction = getDirectionById(id)
-      return direction ? {
+      return direction
+        ? {
         id: direction.id,
         name: direction.name,
         subjectKey: direction.subjectKey
-      } : null
+          }
+        : {
+            id,
+            name: id,
+            subjectKey: id
+          }
     })
     .filter(Boolean)
 }

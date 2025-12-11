@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { getCurrentUser } from '../../../utils/userStore'
-import tasksData from '../../../data/tasks.json'
+import { getTask } from '../../../utils/courseStore'
 
 /**
  * Хук для работы с прогрессом урока
@@ -61,9 +61,10 @@ export function useLessonProgress(subject, lessonId) {
     localStorage.setItem(`homework_${user.username}`, JSON.stringify(newAnswers))
 
     // Проверяем правильность ответа
-    const task = tasksData.find(t => t.id === taskId)
-    const isCorrect = task && task.answer.some(correctAnswer => 
-      correctAnswer.toLowerCase().trim() === answer.toLowerCase().trim()
+    const task = getTask(taskId)
+    const isCorrect =
+      task && (task.answer || []).some((correctAnswer) =>
+        (correctAnswer || '').toLowerCase().trim() === answer.toLowerCase().trim()
     )
 
     // Обновляем прогресс только если ответ правильный

@@ -28,6 +28,7 @@ export function getGamificationData(username) {
   const data = load(LS_GAMIFICATION, {})
   return data[username] || {
     coins: 0,
+    timeSeconds: 0,
     lastActivityDate: null,
     currentStreak: 0,
     longestStreak: 0
@@ -89,6 +90,18 @@ export function spendCoins(username, amount, reason = '') {
   addCoinTransaction(username, -amount, reason)
   
   return true
+}
+
+/**
+ * Добавить активное время пользователя в секундах
+ * Инкрементируется только когда пользователь активен/просматривает контент
+ */
+export function addActiveSeconds(username, seconds) {
+  if (!username || seconds <= 0) return 0
+  const current = getGamificationData(username)
+  const total = (current.timeSeconds || 0) + seconds
+  updateGamificationData(username, { timeSeconds: total })
+  return total
 }
 
 /**

@@ -3,15 +3,22 @@ import { useLocation, useNavigate } from 'react-router-dom'
 export default function BackButton() {
   const location = useLocation()
   const navigate = useNavigate()
+  const fromAutoCourse = location.state?.fromAutoCourse
   
   // Не показываем кнопку на главной странице, логине и 404
-  if (location.pathname === '/' || location.pathname === '/login' || location.pathname === '/404') {
+  const isLessonPage = location.pathname.startsWith('/courses/') && location.pathname.split('/').length >= 4
+  if (location.pathname === '/' || location.pathname === '/login' || location.pathname === '/404' || isLessonPage) {
     return null
   }
 
   const handleBack = () => {
-    // Если пришли с header, находимся на account или gamification, идем на главную
-    if (location.state?.fromHeader || location.pathname === '/account' || location.pathname === '/gamification') {
+    // Если пришли с header, находимся на account или gamification, или автопереход в единственный курс — идем на главную
+    if (
+      location.state?.fromHeader ||
+      fromAutoCourse ||
+      location.pathname === '/account' ||
+      location.pathname === '/gamification'
+    ) {
       navigate('/')
     } else {
       // Иначе возвращаемся назад
@@ -19,7 +26,11 @@ export default function BackButton() {
     }
   }
 
-  const isFromHeader = location.state?.fromHeader || location.pathname === '/account' || location.pathname === '/gamification'
+  const isFromHeader =
+    location.state?.fromHeader ||
+    fromAutoCourse ||
+    location.pathname === '/account' ||
+    location.pathname === '/gamification'
 
   return (
     <div className='fixed left-2 md:left-4 top-24 z-10'>

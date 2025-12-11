@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 /**
  * Компонент выпадающего списка уведомлений
@@ -8,6 +9,7 @@ import { useRef, useEffect, useState } from 'react'
  * @param {number} unreadCount - Количество непрочитанных
  * @param {string} username - Username пользователя
  * @param {function} onMarkAsRead - Функция отметки как прочитанного
+ * @param {function} onClearAll - Функция очистки всех уведомлений
  */
 export default function NotificationsDropdown({ 
   isOpen, 
@@ -15,10 +17,12 @@ export default function NotificationsDropdown({
   notifications = [], 
   unreadCount = 0, 
   username = '', 
-  onMarkAsRead 
+  onMarkAsRead,
+  onClearAll
 }) {
   const dropdownRef = useRef(null)
   const [isSmallScreen, setIsSmallScreen] = useState(false)
+  const navigate = useNavigate()
 
   // Проверяем размер экрана
   useEffect(() => {
@@ -56,6 +60,19 @@ export default function NotificationsDropdown({
     if (notification.unread && onMarkAsRead) {
       onMarkAsRead(notification.id)
     }
+    if (notification.link) {
+      navigate(notification.link)
+      onClose()
+    }
+  }
+
+  const handleClearClick = () => {
+    if (onClearAll) {
+      onClearAll()
+    }
+    if (onClose) {
+      onClose()
+    }
   }
 
   return (
@@ -92,9 +109,13 @@ export default function NotificationsDropdown({
           )}
         </ul>
         {notifications.length > 0 && (
-          <div className='p-3 text-center text-sm text-cyan-500/70 hover:text-cyan-600 cursor-pointer border-t border-gray-100 transition-colors duration-200'>
-            Показать все
-          </div>
+          <button
+            type='button'
+            onClick={handleClearClick}
+            className='w-full p-3 text-center text-sm text-red-600 hover:text-red-700 border-t border-gray-100 transition-colors duration-200'
+          >
+            Очистить уведомления
+          </button>
         )}
       </div>
     </div>

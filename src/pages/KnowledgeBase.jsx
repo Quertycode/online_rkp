@@ -1,13 +1,13 @@
 import { useParams, Navigate } from 'react-router-dom'
 import Card from '../components/Card'
-import coursesData from '../data/courses.json'
+import { getCourse } from '../utils/courseStore'
 import { getSubjectName } from '../constants/subjects'
 
 export default function KnowledgeBase() {
   const { subject } = useParams()
   
   // Проверяем, существует ли предмет
-  if (!coursesData[subject]) {
+  if (!getCourse(subject)) {
     return <Navigate to='/404' replace />
   }
   

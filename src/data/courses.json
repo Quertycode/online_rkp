@@ -1,89 +1,317 @@
 {
-  "math": {
-    "title": "Математика",
+  "pract_psychology": {
+    "title": "Практическая психология",
     "lessons": [
       {
         "id": 1,
-        "title": "Уравнения и неравенства",
-        "video": "https://www.youtube.com/embed/7RhFlrACEbI",
-        "materials": [
-          "https://example.com/materials/math1.pdf",
-          "https://example.com/materials/math1_exercises.pdf"
-        ],
-        "homework": [1, 2]
+        "title": "Практикум по психологии",
+        "description": "Базовые техники работы с клиентами и практические кейсы.",
+        "order": 1,
+        "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "materials": ["Чек-лист активного слушания", "Памятка по конфиденциальности"],
+        "homework": [1001, 1011, 1012, 1013, 1014]
       },
       {
         "id": 2,
-        "title": "Тригонометрия",
-        "video": "https://www.youtube.com/embed/7RhFlrACEbI",
-        "materials": [
-          "https://example.com/materials/math2.pdf",
-          "https://example.com/materials/trigonometry_table.pdf"
-        ],
-        "homework": [3]
+        "title": "Клиентская диагностика",
+        "description": "Сбор анамнеза и первичная диагностика состояния клиента.",
+        "order": 2,
+        "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "materials": ["Шаблон опросника", "Пример кейса"],
+        "homework": [1002, 1015, 1016, 1017, 1018]
       },
       {
         "id": 3,
-        "title": "Производные и интегралы",
-        "video": "https://www.youtube.com/embed/7RhFlrACEbI",
-        "materials": [
-          "https://example.com/materials/calculus_basics.pdf",
-          "https://example.com/materials/integration_rules.pdf"
-        ],
-        "homework": [4, 5]
+        "title": "Цели и контракт",
+        "description": "Постановка целей и заключение психологического контракта.",
+        "order": 3,
+        "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "materials": ["Шаблон контракта", "Пример SMART-целей"],
+        "homework": [1003, 1019, 1020, 1021, 1022]
       },
       {
         "id": 4,
-        "title": "Геометрия в пространстве",
-        "video": "https://www.youtube.com/embed/7RhFlrACEbI",
-        "materials": [
-          "https://example.com/materials/3d_geometry.pdf"
-        ],
-        "homework": [6]
+        "title": "Когнитивно-поведенческие техники",
+        "description": "Основные инструменты КПТ и работа с автоматическими мыслями.",
+        "order": 4,
+        "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "materials": ["Рабочий лист ABC", "Список когнитивных искажений"],
+        "homework": [1004, 1023, 1024, 1025, 1026]
+      },
+      {
+        "id": 5,
+        "title": "Работа с эмоциями",
+        "description": "Идентификация, валидация и регуляция эмоций клиента.",
+        "order": 5,
+        "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "materials": ["Дневник эмоций", "Карты эмоций"],
+        "homework": [1005, 1027, 1028, 1029, 1030]
+      },
+      {
+        "id": 6,
+        "title": "Стресс и выгорание",
+        "description": "Диагностика и профилактика эмоционального выгорания.",
+        "order": 6,
+        "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "materials": ["Опросник выгорания", "Памятка самопомощи"],
+        "homework": [1006, 1031, 1032, 1033, 1034]
+      },
+      {
+        "id": 7,
+        "title": "Работа с тревогой",
+        "description": "Методы снижения тревоги и обучение релаксации.",
+        "order": 7,
+        "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "materials": ["Скрипт прогрессивной релаксации", "Аудио-дорожка дыхания 4-7-8"],
+        "homework": [1007, 1035, 1036, 1037, 1038]
+      },
+      {
+        "id": 8,
+        "title": "Коммуникация и границы",
+        "description": "Ассертивность, границы и работа с сопротивлением.",
+        "order": 8,
+        "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "materials": ["Скрипты ассертивных ответов", "Памятка по границам"],
+        "homework": [1008, 1039, 1040, 1041, 1042]
+      },
+      {
+        "id": 9,
+        "title": "Кризисные состояния",
+        "description": "Первая психологическая помощь и алгоритмы безопасности.",
+        "order": 9,
+        "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "materials": ["Алгоритм PFA", "Список телефонов доверия"],
+        "homework": [1009, 1043, 1044, 1045, 1046]
+      },
+      {
+        "id": 10,
+        "title": "Супервизия и развитие",
+        "description": "Как работать с супервизором и вести профессиональный дневник.",
+        "order": 10,
+        "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "materials": ["Шаблон супервизионного запроса", "Формат профессионального дневника"],
+        "homework": [1010, 1047, 1048, 1049, 1050]
       }
     ]
   },
-  "russian": {
-    "title": "Русский язык",
+  "pedagogy_prof_psychology": {
+    "title": "Педагогика и психология в профессиональной деятельности",
     "lessons": [
       {
         "id": 1,
-        "title": "Орфография и пунктуация",
-        "video": "https://www.youtube.com/embed/7RhFlrACEbI",
-        "materials": [
-          "https://example.com/materials/rus1.pdf",
-          "https://example.com/materials/spelling_rules.pdf"
-        ],
-        "homework": [7, 8]
+        "title": "Основы педагогики и психологии",
+        "description": "Базовые принципы педагогики, психологии и их применение в работе.",
+        "order": 1,
+        "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "materials": [],
+        "homework": []
+      }
+    ]
+  },
+  "speech_therapy": {
+    "title": "Дефектологическое образование: учитель-логопед",
+    "lessons": [
+      {
+        "id": 1,
+        "title": "Основы логопедии",
+        "description": "Вводный обзор коррекционной работы и ключевых методик логопеда.",
+        "order": 1,
+        "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "materials": [],
+        "homework": []
+      }
+    ]
+  },
+  "org_management": {
+    "title": "Менеджмент организации",
+    "lessons": [
+      {
+        "id": 1,
+        "title": "Структура и процессы организации",
+        "description": "Ключевые элементы структуры компаний и управление процессами.",
+        "order": 1,
+        "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "materials": ["Оргструктура: примеры", "Шаблон карты процессов"],
+        "homework": [2001]
       },
       {
         "id": 2,
-        "title": "Части речи",
-        "video": "https://www.youtube.com/embed/7RhFlrACEbI",
-        "materials": [
-          "https://example.com/materials/rus2.pdf",
-          "https://example.com/materials/parts_of_speech.pdf"
-        ],
-        "homework": [9]
+        "title": "Цели и KPI",
+        "description": "Каскадирование целей, KPI и метрики успеха.",
+        "order": 2,
+        "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "materials": ["Шаблон KPI", "Пример OKR"],
+        "homework": [2002]
       },
       {
         "id": 3,
-        "title": "Синтаксис и пунктуация",
-        "video": "https://www.youtube.com/embed/7RhFlrACEbI",
-        "materials": [
-          "https://example.com/materials/syntax.pdf",
-          "https://example.com/materials/punctuation_rules.pdf"
-        ],
-        "homework": [10, 11]
+        "title": "Проектное управление",
+        "description": "Базовые подходы Agile/Waterfall и выбор методологии.",
+        "order": 3,
+        "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "materials": ["Сравнение Agile/Waterfall", "Чек-лист kickoff"],
+        "homework": [2003]
       },
       {
         "id": 4,
-        "title": "Стилистика и культура речи",
-        "video": "https://www.youtube.com/embed/7RhFlrACEbI",
-        "materials": [
-          "https://example.com/materials/stylistics.pdf"
-        ],
-        "homework": [12]
+        "title": "Риски и контроль",
+        "description": "Идентификация, оценка и план реагирования на риски.",
+        "order": 4,
+        "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "materials": ["Реестр рисков (шаблон)", "Матрица вероятности/влияния"],
+        "homework": [2004]
+      },
+      {
+        "id": 5,
+        "title": "Коммуникации",
+        "description": "Коммуникационный план, стейкхолдеры и отчётность.",
+        "order": 5,
+        "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "materials": ["Шаблон комм-плана", "РACI пример"],
+        "homework": [2005]
+      },
+      {
+        "id": 6,
+        "title": "Финансы для менеджера",
+        "description": "Бюджетирование, P&L, cash flow и юнит-экономика.",
+        "order": 6,
+        "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "materials": ["Пример P&L", "Калькулятор юнит-экономики"],
+        "homework": [2006]
+      },
+      {
+        "id": 7,
+        "title": "Операционная эффективность",
+        "description": "Lean, Kaizen и оптимизация процессов.",
+        "order": 7,
+        "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "materials": ["Инструменты Lean", "Карта потока создания ценности"],
+        "homework": [2007]
+      },
+      {
+        "id": 8,
+        "title": "Управление изменениями",
+        "description": "Модели ADKAR и Kotter, работа с сопротивлением.",
+        "order": 8,
+        "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "materials": ["Чек-лист ADKAR", "План коммуникаций при изменениях"],
+        "homework": [2008]
+      },
+      {
+        "id": 9,
+        "title": "Команды и лидерство",
+        "description": "Формирование команд, роли и мотивация.",
+        "order": 9,
+        "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "materials": ["Модель Белбина", "1:1 шаблон встречи"],
+        "homework": [2009]
+      },
+      {
+        "id": 10,
+        "title": "Клиентский опыт и сервис",
+        "description": "CJМ, NPS и улучшение клиентского пути.",
+        "order": 10,
+        "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "materials": ["Шаблон CJM", "Опросник NPS"],
+        "homework": [2010]
+      }
+    ]
+  },
+  "econ_management": {
+    "title": "Экономика и менеджмент",
+    "lessons": [
+      {
+        "id": 1,
+        "title": "Экономические основы управления",
+        "description": "Фундаментальные экономические подходы к управлению организациями.",
+        "order": 1,
+        "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "materials": [],
+        "homework": []
+      }
+    ]
+  },
+  "hr_management": {
+    "title": "Управление персоналом (кадровый менеджмент)",
+    "lessons": [
+      {
+        "id": 1,
+        "title": "Цикл работы с персоналом",
+        "description": "Полный цикл управления персоналом: подбор, адаптация, развитие.",
+        "order": 1,
+        "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "materials": [],
+        "homework": []
+      }
+    ]
+  },
+  "marketing_management": {
+    "title": "Менеджмент и маркетинг",
+    "lessons": [
+      {
+        "id": 1,
+        "title": "Маркетинговые стратегии",
+        "description": "Стартовые маркетинговые стратегии и планирование кампаний.",
+        "order": 1,
+        "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "materials": [],
+        "homework": []
+      }
+    ]
+  },
+  "fitness_coach": {
+    "title": "Тренер по фитнесу",
+    "lessons": [
+      {
+        "id": 1,
+        "title": "Методика тренировок",
+        "description": "Основы планирования тренировочного процесса и безопасности клиентов.",
+        "order": 1,
+        "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "materials": [],
+        "homework": []
+      }
+    ]
+  },
+  "sport": {
+    "title": "Физическая культура и спорт",
+    "lessons": [
+      {
+        "id": 1,
+        "title": "Современные подходы к тренировкам",
+        "description": "Актуальные методики и инструменты подготовки спортсменов.",
+        "order": 1,
+        "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "materials": [],
+        "homework": []
+      }
+    ]
+  },
+  "adaptive_sport": {
+    "title": "Адаптивная физическая культура",
+    "lessons": [
+      {
+        "id": 1,
+        "title": "Основы адаптивной физической культуры",
+        "description": "Принципы адаптивных программ для людей с особыми потребностями.",
+        "order": 1,
+        "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "materials": [],
+        "homework": []
+      }
+    ]
+  },
+  "pedagogy_theory": {
+    "title": "Педагогическое образование. Теория и методика обучения и воспитания",
+    "lessons": [
+      {
+        "id": 1,
+        "title": "Методика обучения и воспитания",
+        "description": "Базовые методики обучения, воспитания и организации уроков.",
+        "order": 1,
+        "video": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        "materials": [],
+        "homework": []
       }
     ]
   }

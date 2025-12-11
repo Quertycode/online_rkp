@@ -10,15 +10,12 @@ import Home from './pages/Home'
 import Courses from './pages/Courses'
 import CourseLessons from './pages/CourseLessons'
 import LessonDetails from './pages/LessonDetails'
-import Trainer from './pages/Trainer'
-import Tasks from './pages/Tasks'
-import Homework from './pages/Homework'
+import Practice from './pages/Practice'
 import Account from './pages/Account'
 import Login from './pages/Login'
 import AdminPanel from './pages/AdminPanel'
 import TeacherPanel from './pages/TeacherPanel'
 import KnowledgeBase from './pages/KnowledgeBase'
-import Gamification from './pages/Gamification'
 import PomodoroTimer from './pages/PomodoroTimer'
 import NotFound from './pages/NotFound'
 
@@ -53,42 +50,19 @@ export default function App() {
               />
               <Route path='/login' element={<div className='p-4 md:p-6'><Login /></div>} />
               <Route 
-                path='/trainer' 
+                path='/practice' 
                 element={
                   <ProtectedRoute>
-                    <Trainer />
+                    <div className='p-4 md:p-6'><Practice /></div>
                   </ProtectedRoute>
                 } 
               />
-              <Route 
-                path='/tasks' 
-                element={
-                  <ProtectedRoute>
-                    <div className='p-4 md:p-6'><Tasks /></div>
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path='/homework' 
-                element={
-                  <ProtectedRoute>
-                    <div className='p-4 md:p-6'><Homework /></div>
-                  </ProtectedRoute>
-                } 
-              />
+              <Route path='/homework/*' element={<Navigate to='/practice' replace />} />
               <Route 
                 path='/account' 
                 element={
                   <ProtectedRoute>
                     <div className='p-4 md:p-6'><Account /></div>
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path='/gamification' 
-                element={
-                  <ProtectedRoute>
-                    <div className='p-4 md:p-6'><Gamification /></div>
                   </ProtectedRoute>
                 } 
               />

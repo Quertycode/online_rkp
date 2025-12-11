@@ -20,28 +20,14 @@ export default function Navigation() {
         state={{ fromHeader: true }}
         className={({ isActive }) => (isActive ? activeLinkBase : linkBase)}
       >
-        Предметы
+        Курс
       </NavLink>
       <NavLink
-        to='/trainer'
+        to='/practice'
         state={{ fromHeader: true }}
         className={({ isActive }) => (isActive ? activeLinkBase : linkBase)}
       >
-        Тренажер
-      </NavLink>
-      <NavLink
-        to='/tasks'
-        state={{ fromHeader: true }}
-        className={({ isActive }) => (isActive ? activeLinkBase : linkBase)}
-      >
-        Банк заданий
-      </NavLink>
-      <NavLink
-        to='/homework'
-        state={{ fromHeader: true }}
-        className={({ isActive }) => (isActive ? activeLinkBase : linkBase)}
-      >
-        Домашка
+        Практика
       </NavLink>
       {user?.role === 'teacher' && (
         <NavLink
@@ -49,7 +35,7 @@ export default function Navigation() {
           state={{ fromHeader: true }}
           className={({ isActive }) => (isActive ? activeLinkBase : linkBase)}
         >
-          Учитель
+          Преподаватель
         </NavLink>
       )}
       {user?.role === 'admin' && (

@@ -1,16 +1,11 @@
 import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { usePomodoro } from '../contexts/PomodoroContext'
-import { useGamification } from '../hooks/useGamification'
-import { FEATURES } from '../constants/prices'
 
 /**
  * Страница Pomodoro таймера
  * Доступна только после покупки
  */
 export default function PomodoroTimer() {
-  const navigate = useNavigate()
-  const { isPurchased } = useGamification()
   const {
     timeLeftFormatted,
     isRunning,
@@ -23,13 +18,6 @@ export default function PomodoroTimer() {
     switchMode,
     requestNotificationPermission
   } = usePomodoro()
-  
-  // Проверяем, куплен ли Pomodoro
-  useEffect(() => {
-    if (!isPurchased(FEATURES.POMODORO)) {
-      navigate('/gamification')
-    }
-  }, [isPurchased, navigate])
   
   // Запрашиваем разрешение на уведомления при монтировании
   useEffect(() => {
